@@ -103,8 +103,9 @@ void loop() {
   //getVoltage();
 
   // Basic running test
-  //testMotors();
-  gatherAccelometerValues();
+  testMotors();
+  
+  //gatherAccelometerValues();
 }
 
 ////////////////////////////////
