@@ -60,8 +60,8 @@ uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
 uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
 
 // Initialize Compass
-// Assigning a unique ID to the compass (12345)
-Adafruit_LSM303_accelometer_Unified accelometer = Adafruit_LSM303_accelometer_Unified(54321);
+// Assigning a unique ID (12345) to the compass
+Adafruit_LSM303_Accel_Unified accelometer = Adafruit_LSM303_Accel_Unified(54321);
 
 void setup() {
   // Set input pins
@@ -100,10 +100,11 @@ void setup() {
 }
 
 void loop() {
-  getVoltage();
+  //getVoltage();
 
   // Basic running test
   //testMotors();
+  gatherAccelometerValues();
 }
 
 ////////////////////////////////
