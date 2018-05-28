@@ -24,3 +24,12 @@ int getVoltage() {
   return batteryLevel;
 }
 
+// Turn on the LED when Battery is low
+void turnLEDs() {
+  int batteryLevel = getVoltage();
+  bool isBatteryLow = batteryLevel < 50;
+  if(isBatteryLow) {
+    digitalWrite(ledPin, HIGH);
+  }
+}
+

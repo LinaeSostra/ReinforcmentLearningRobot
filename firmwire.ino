@@ -36,7 +36,7 @@ const int pinMotorB1 = 14;          // D5
 const int pinMotorB2 = 12;          // D6
 const int pinSpeedMotorA = 15;      // D7
 const int pinSpeedMotorB = 13;      // D8
-// 9 SD2
+const int ledPin = 9; // SD2
 // 10 SD3
 
 ////////////////////////////////
@@ -68,6 +68,7 @@ void setup() {
   pinMode(pinBatteryRead, INPUT);
 
   // Set output pins
+  pinMode(ledPin, OUTPUT);
   pinMode(pinMotorA1, OUTPUT);
   pinMode(pinMotorA2, OUTPUT);
   pinMode(pinMotorB1, OUTPUT);
@@ -97,11 +98,14 @@ void setup() {
   // Before we can use PWM speed control:
   digitalWrite(pinSpeedMotorA, HIGH);
   digitalWrite(pinSpeedMotorB, HIGH);
+
+  // Set LED off
+  digitalWrite(ledPin, LOW);
 }
 
 void loop() {
   //getVoltage();
-
+  turnLEDs();
   // Basic running test
   testMotors();
   
