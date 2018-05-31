@@ -36,8 +36,10 @@ const int pinMotorB1 = 14;          // D5
 const int pinMotorB2 = 12;          // D6
 const int pinSpeedMotorA = 15;      // D7
 const int pinSpeedMotorB = 13;      // D8
-//const int ledPin = 9; // SD2
-// 10 SD3
+// Note: There is something weird about this output 9 on this particular microcontroller.
+// 9 SD2
+const int ledPin = 10; // 10 SD3
+
 
 ////////////////////////////////
 /* Global Constants */
@@ -55,7 +57,7 @@ uint8_t rightMotorSpeed;
 int compassDirection; // 0 - 359 degrees
 bool isSensorPushed;
 
-uint8_t batteryLevel = 0;
+float batteryLevel = 0;
 uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
 uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
 
@@ -68,7 +70,7 @@ void setup() {
   pinMode(pinBatteryRead, INPUT);
 
   // Set output pins
-  //pinMode(ledPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
   pinMode(pinMotorA1, OUTPUT);
   pinMode(pinMotorA2, OUTPUT);
   pinMode(pinMotorB1, OUTPUT);
@@ -84,7 +86,7 @@ void setup() {
   }
 
   // Get initial readings
-  getVoltage();
+  checkBattery();
     
 #ifdef DEBUG
 // Debug
@@ -100,11 +102,11 @@ void setup() {
   digitalWrite(pinSpeedMotorB, HIGH);
 
   // Set LED off
-  //digitalWrite(ledPin, LOW);
+  digitalWrite(ledPin, LOW);
 }
 
 void loop() {
-  getVoltage();
+  checkBattery();
   // Basic running test
   //testMotors();
   
