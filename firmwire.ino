@@ -28,26 +28,24 @@
 ////////////////////////////////
 /* Pins */
 ////////////////////////////////
-//const int interruptPin 16;          // D0
+// 16 D0  - Non-interruptable
 const int pinBatteryRead = A0;      // A0
 const int pinMotorA1 = 0;           // D3
 const int pinMotorA2 = 2;           // D4
 const int pinMotorB1 = 14;          // D5
 const int pinMotorB2 = 12;          // D6
-const int pinSpeedMotorA = 15;      // D7
-const int pinSpeedMotorB = 13;      // D8
+const int sensorPin = 15;           // D7
+// 13 D8
+const int pinSpeedMotorA = 1;       // Tx
+const int pinSpeedMotorB = 3;       // Rx
 // Note: There is something weird about this output 9 on this particular microcontroller.
 // 9 SD2
-const int ledPin = 10; // 10 SD3
+const int ledPin = 10; // SD3
 
 
 ////////////////////////////////
 /* Global Constants */
 ////////////////////////////////
-const int R1 = 47; // 2k
-const int R2 = 100; // 100k
-const float batteryVoltageMax = 8.4; // 4.2 x 2
-const float batteryVoltageMin = 6.4; // 3.2 x 2
 
 ////////////////////////////////
 /* Global Variables */
@@ -57,7 +55,6 @@ uint8_t rightMotorSpeed;
 int compassDirection; // 0 - 359 degrees
 bool isSensorPushed;
 
-float batteryLevel = 0;
 uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
 uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
 
@@ -107,10 +104,11 @@ void setup() {
 
 void loop() {
   checkBattery();
+  //Serial.print("Is Sensor Pushed: "); Serial.println(getSensorPushed());
   // Basic running test
-  //testMotors();
+  testMotors();
   
-  gatherAccelometerValues();
+  //gatherAccelometerValues();
 }
 
 ////////////////////////////////
