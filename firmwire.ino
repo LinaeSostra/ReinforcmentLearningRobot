@@ -3,13 +3,13 @@
    to rotate and/or move forward/backward.
    -------------------------------------------------------------
    To-Do List
-   ★ Push sensor
    ★ Make sense of compass module readings
    ★ Wireless communication
    ★ H-bridge PWM speed control (need level converters or add-on circuits)
    ★ Testings
    -------------------------------------------------------------
    Done List
+   ★ Push sensor
    ★ H-bridge & motors direction control
    ★ Battery level reading is working! (error ~0.1v)
    ★ Update the pin numbers after MCU is finalized
@@ -34,13 +34,13 @@ const int pinMotorA1 = 0;           // D3
 const int pinMotorA2 = 2;           // D4
 const int pinMotorB1 = 14;          // D5
 const int pinMotorB2 = 12;          // D6
-const int sensorPin = 15;           // D7
-// 13 D8
+const int pinPushSensor = 13;           // D7
+// 15 D8
 const int pinSpeedMotorA = 1;       // Tx
 const int pinSpeedMotorB = 3;       // Rx
 // Note: There is something weird about this output 9 on this particular microcontroller.
 // 9 SD2
-const int ledPin = 10; // SD3
+const int pinLED = 10; // SD3
 
 
 ////////////////////////////////
@@ -67,13 +67,17 @@ void setup() {
   pinMode(pinBatteryRead, INPUT);
 
   // Set output pins
-  pinMode(ledPin, OUTPUT);
+  pinMode(pinLED, OUTPUT);
   pinMode(pinMotorA1, OUTPUT);
   pinMode(pinMotorA2, OUTPUT);
   pinMode(pinMotorB1, OUTPUT);
   pinMode(pinMotorB2, OUTPUT);
   pinMode(pinSpeedMotorA, OUTPUT);
   pinMode(pinSpeedMotorB, OUTPUT);
+  pinMode(pinPushSensor, INPUT_PULLUP);
+
+  // Attach Interrupts
+  attachInterrupt(digitalPinToInterrupt(pinPushSensor), latchTriggered, CHANGE);
 
   // Initialize the sensor
   if(!accelometer.begin()) {
@@ -99,16 +103,15 @@ void setup() {
   digitalWrite(pinSpeedMotorB, HIGH);
 
   // Set LED off
-  digitalWrite(ledPin, LOW);
+  digitalWrite(pinLED, LOW);
 }
 
 void loop() {
   checkBattery();
-  //Serial.print("Is Sensor Pushed: "); Serial.println(getSensorPushed());
   // Basic running test
-  testMotors();
+  //testMotors();
   
-  //gatherAccelometerValues();
+  gatherAccelometerValues();
 }
 
 ////////////////////////////////
@@ -117,10 +120,9 @@ void loop() {
 
 /* Setters */
 
-// Interrupt Fcn: When the push sensor changes state,
-// update isSensorPushed boolean
+// Interrupt Fcn: When the push sensor changes state, update isSensorPushed boolean
 void latchTriggered() {
-  isSensorPushed = !isSensorPushed;
+  isSensorPushed = digitalRead(pinPushSensor) ? true : false;
 }
 
 // Updates the direction of the robot

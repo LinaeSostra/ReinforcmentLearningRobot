@@ -5,7 +5,7 @@
 ////////////////////////////////
 const float batteryVoltageMax = 8.4; // 4.2 x 2
 const float batteryVoltageMin = 6.4; // 3.2 x 2
-const int R1 = 47; // 2k
+const int R1 = 47; // 47k
 const int R2 = 100; // 100k
 
 const float lowBatteryThreshold = 20.0;
@@ -43,9 +43,9 @@ void turnLEDs() {
   bool isBatteryLow = batteryPercentage < lowBatteryThreshold && batteryPercentage > 0.0;
 
   if(isBatteryLow) {
-    digitalWrite(ledPin, HIGH);
+    digitalWrite(pinLED, HIGH);
   } else {
-    digitalWrite(ledPin, LOW);
+    digitalWrite(pinLED, LOW);
   }
 }
 
