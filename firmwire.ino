@@ -122,7 +122,10 @@ void loop() {
 
 // Interrupt Fcn: When the push sensor changes state, update isSensorPushed boolean
 void latchTriggered() {
-  isSensorPushed = digitalRead(pinPushSensor) ? true : false;
+#ifdef DEBUG
+  Serial.print("Is Sensor Pushed: "); Serial.println(getSensorPushed());
+#endif
+  isSensorPushed = !isSensorPushed;
 }
 
 // Updates the direction of the robot
