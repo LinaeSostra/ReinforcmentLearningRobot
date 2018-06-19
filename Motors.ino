@@ -11,6 +11,13 @@ void testMotors() {
   delay(5000); // Wait 5 seconds
 }
 
+void stay() {
+  digitalWrite(pinMotorA1, LOW);
+  digitalWrite(pinMotorA2, LOW);
+  digitalWrite(pinMotorB1, LOW);
+  digitalWrite(pinMotorB2, LOW);
+}
+
 void moveCW() {
   digitalWrite(pinMotorA1, LOW);
   digitalWrite(pinMotorA2, HIGH);
