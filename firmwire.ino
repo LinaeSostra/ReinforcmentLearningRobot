@@ -7,6 +7,7 @@
    ★ Wireless communication
    ★ H-bridge PWM speed control (need level converters or add-on circuits)
    ★ Testings
+   ★ Robot.cpp
    -------------------------------------------------------------
    Done List
    ★ Push sensor
@@ -20,14 +21,12 @@
 #include "src/Adafruit_Sensor.h"
 #include "src/Adafruit_LSM303_U.h"
 #include "Pins.h"
+#include "Learning.h"
+
 ////////////////////////////////
 /* Debug Mode */
 ////////////////////////////////
 #define DEBUG // comment this line to disable debug (Serial Prints)
-
-////////////////////////////////
-/* Global Constants */
-////////////////////////////////
 
 ////////////////////////////////
 /* Global Variables */
