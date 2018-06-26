@@ -22,6 +22,7 @@
 #include "src/Adafruit_LSM303_U.h"
 #include "Pins.h"
 #include "Learning.h"
+#include "Motors.h"
 
 ////////////////////////////////
 /* Debug Mode */
@@ -35,9 +36,6 @@ uint8_t leftMotorSpeed;
 uint8_t rightMotorSpeed;
 int compassDirection; // 0 - 359 degrees
 bool isSensorPushed;
-
-uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
-uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
 
 // Initialize Compass
 // Assigning a unique ID (12345) to the compass

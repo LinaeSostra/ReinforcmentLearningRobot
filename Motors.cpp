@@ -1,4 +1,21 @@
+#include <Arduino.h>
+#include "Motors.h"
+#include "Pins.h"
+
 /* Motion */
+
+uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
+uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
+
+// Returns the speed of the left motor
+uint8_t getLeftMotorSpeed() {
+  return motorSpeedB; // get PWM speed
+}
+
+// Returns the speed of the right motor
+uint8_t getRightMotorSpeed() {
+  return motorSpeedA; // get PWM speed
+}
 
 void testMotors() {
   moveCW(); // Rotate in Clockwise
@@ -11,7 +28,7 @@ void testMotors() {
   delay(5000); // Wait 5 seconds
 }
 
-void stay() {
+void stay() { 
   digitalWrite(pinMotorA1, LOW);
   digitalWrite(pinMotorA2, LOW);
   digitalWrite(pinMotorB1, LOW);
