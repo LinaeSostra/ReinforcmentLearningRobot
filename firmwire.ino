@@ -23,6 +23,7 @@
 #include "Pins.h"
 #include "Learning.h"
 #include "Motors.h"
+#include "PushButton.h"
 
 ////////////////////////////////
 /* Debug Mode */
@@ -34,8 +35,8 @@
 ////////////////////////////////
 uint8_t leftMotorSpeed;
 uint8_t rightMotorSpeed;
+
 int compassDirection; // 0 - 359 degrees
-bool isSensorPushed;
 
 // Initialize Compass
 // Assigning a unique ID (12345) to the compass
@@ -53,10 +54,7 @@ void setup() {
   pinMode(pinMotorB2, OUTPUT);
   pinMode(pinSpeedMotorA, OUTPUT);
   pinMode(pinSpeedMotorB, OUTPUT);
-  pinMode(pinPushSensor, INPUT_PULLUP);
-
-  // Attach Interrupts
-  attachInterrupt(digitalPinToInterrupt(pinPushSensor), latchTriggered, CHANGE);
+  setupLatch();
 
   // Initialize the sensor
   if(!accelometer.begin()) {
@@ -99,15 +97,13 @@ void loop() {
 
 /* Setters */
 
-// Interrupt Fcn: When the push sensor changes state, update isSensorPushed boolean
-void latchTriggered() {
-#ifdef DEBUG
-  Serial.print("Is Sensor Pushed: "); Serial.println(getSensorPushed());
-#endif
-  isSensorPushed = !isSensorPushed;
-}
-
 // Updates the direction of the robot
 void updateDirection() {
   compassDirection = -1;
+}
+
+/* Getters */
+// Gets the direction of the robot
+int getDirection() {
+  return compassDirection;
 }
