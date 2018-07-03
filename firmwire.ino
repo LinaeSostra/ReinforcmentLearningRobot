@@ -8,6 +8,7 @@
    ★ H-bridge PWM speed control (need level converters or add-on circuits)
    ★ Testings
    ★ Robot.cpp
+   ★ Convert Compass && Sensor to C++
    -------------------------------------------------------------
    Done List
    ★ Push sensor
@@ -41,6 +42,7 @@ int compassDirection; // 0 - 359 degrees
 // Initialize Compass
 // Assigning a unique ID (12345) to the compass
 Adafruit_LSM303_Accel_Unified accelometer = Adafruit_LSM303_Accel_Unified(54321);
+Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
 void setup() {
   // Set input pins
@@ -56,8 +58,11 @@ void setup() {
   pinMode(pinSpeedMotorB, OUTPUT);
   setupLatch();
 
+  // Enable auto-gain
+  mag.enableAutoRange(true);
+
   // Initialize the sensor
-  if(!accelometer.begin()) {
+  if(!accelometer.begin() || !mag.begin()) {
     // There was a problem detecting the ADXL345 ... check your connections
     Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
     while(1);
@@ -86,9 +91,10 @@ void setup() {
 void loop() {
   checkBattery();
   // Basic running test
-  testMotors();
+  //testMotors();
   
-  gatherAccelometerValues();
+  //gatherAccelometerValues();
+  gatherMagneticValues();
 }
 
 ////////////////////////////////
