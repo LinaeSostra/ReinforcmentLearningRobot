@@ -73,7 +73,7 @@ void apply(Action action) {
       currentState.yPosition += pos.y;
     break;
     }
-    case Backward: {
+    case Backwards: {
       moveBackward();
       Position pos = calculateMovement(currentState.angle, false);
       currentState.xPosition += pos.x;

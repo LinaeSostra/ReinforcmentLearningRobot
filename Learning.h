@@ -2,10 +2,10 @@
 #define LEARNING_H
 
 typedef enum Angle {
-  North=0,
-  West=90,
-  South=180,
-  East=270
+  North = 0,
+  West = 90,
+  South = 180,
+  East = 270
 } Angle;
 
 typedef struct State {
@@ -18,7 +18,7 @@ typedef struct State {
 typedef enum Action {
   Stay,
   Forward,
-  Backward,
+  Backwards,
   Right,
   Left
 } Action;
