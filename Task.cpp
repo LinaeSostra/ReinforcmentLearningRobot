@@ -1,17 +1,14 @@
 #include <Arduino.h>
 #include "Learning.h"
+#include "PushButton.h"
 
 //TODO(Rebecca): Fix these to be proper calls.
-bool sensorPressed = false;
 bool batteryLow = false;
 bool isCompassNorth = false;
 
 bool stateIsTerminal(const State &state) { 
   //TODO: This will be more complex if Benny actually works...
-  if(sensorPressed) {
-    return true;
-  }
-  return false;
+  return getLatch();
 }
 
 int8_t reward(const State &state, const Action action, const State &statePrime) {
