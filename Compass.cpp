@@ -1,13 +1,18 @@
 #include <Arduino.h>
 #include "Compass.h"
+#include "Motors.h"
 #include "src/Adafruit_Sensor.h"
 #include "src/Adafruit_LSM303_U.h"
 
 /* Compass */
 
+int compassDirection; // 0 - 359 degrees
+
 // Assigning a unique ID (12345) to the compass
 Adafruit_LSM303_Accel_Unified accelometer = Adafruit_LSM303_Accel_Unified(54321);
-Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
+Adafruit_LSM303_Mag_Unified magnetometer = Adafruit_LSM303_Mag_Unified(12345);
+
+const double error = 1e-2;
 
 double xMagOffsetMin = 0.0;
 double xMagOffsetMax = 0.0;
@@ -24,10 +29,10 @@ static double zMag = 0.0;
 
 void compassSetup() {
   // Enable auto-gain
-  mag.enableAutoRange(true);
+  magnetometer.enableAutoRange(true);
 
   // Initialize the sensor
-  if(!accelometer.begin() || !mag.begin()) {
+  if(!accelometer.begin() || !magnetometer.begin()) {
     // There was a problem detecting the ADXL345 ... check your connections
     Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
     while(1);
@@ -54,10 +59,10 @@ void testAccelometerValues() {
   delay(500); // Delay for next sample
 }
 
-void gatherMagnetometerValues() {
+void gatherMagnetometerReadings() {
   // Get a new sensor event;
   sensors_event_t event;
-  mag.getEvent(&event);
+  magnetometer.getEvent(&event);
 
   // Save the results (magnetic vector values are in micro-Tesla (uT))
   xMag = event.magnetic.x;
@@ -72,4 +77,56 @@ void testMageneticValues() {
   Serial.print("Z: "); Serial.print(zMag); Serial.print("  ");Serial.println("uT");
 
   delay(500); // Delay for next sample 
+}
+
+void updateMagnetometerOffsets() {
+  if( xMagOffsetMin > xMag ) {
+    xMagOffsetMin = xMag;
+  }
+  if( xMagOffsetMax < xMag ) {
+    xMagOffsetMax = xMag;
+  }
+  if( yMagOffsetMin > yMag ) {
+    yMagOffsetMin = yMag;
+  }
+  if( yMagOffsetMax < yMag ) {
+    yMagOffsetMax = yMag;
+  }
+}
+
+bool checkCompletedCalibration() {
+  return ((abs(xMag - xMagOffsetMin) < error) && (abs(yMag - yMagOffsetMin) < error));
+}
+
+// Spins the robot to calibrate the max/min magnetic readings for location, and stop the robot at min mag x & y values
+void calibrateMagneticReadings() {
+  // If ran for the first time since bootup, set the offsets to initial readings, and start from there
+  bool ifOffsetsNotCalibrated = xMagOffsetMin == 0.0 || yMagOffsetMin == 0.0 || xMagOffsetMax == 0.0 || yMagOffsetMax == 0.0;
+  if(ifOffsetsNotCalibrated) {
+    gatherMagnetometerReadings();
+  
+    xMagOffsetMin = xMag;
+    xMagOffsetMax = xMag;
+    yMagOffsetMin = yMag;
+    yMagOffsetMax = yMag;
+  }
+  bool hasFinishedCalibration = false;
+  while(!hasFinishedCalibration) {
+    moveCCW();
+    delay(10);
+    gatherMagnetometerReadings();
+    hasFinishedCalibration = checkCompletedCalibration();
+    updateMagnetometerOffsets();
+  }
+}
+
+// Updates the direction of the robot
+void updateDirection() {
+  compassDirection = -1;
+}
+
+/* Getters */
+// Gets the direction of the robot
+int getDirection() {
+  return compassDirection;
 }

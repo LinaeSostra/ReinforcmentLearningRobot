@@ -2,7 +2,7 @@
 #define COMPASS_H
 
 void compassSetup();
-void gatherAccelometerValues();
-void gatherMagnetometerValues();
+void gatherAccelometerReadings();
+void gatherMagnetometerReadings();
 void calibrateMagnetReadings();
 #endif

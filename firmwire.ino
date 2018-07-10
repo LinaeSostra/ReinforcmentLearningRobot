@@ -36,13 +36,6 @@
 uint8_t leftMotorSpeed;
 uint8_t rightMotorSpeed;
 
-int compassDirection; // 0 - 359 degrees
-
-// Initialize Compass
-// Assigning a unique ID (12345) to the compass
-//Adafruit_LSM303_Accel_Unified accelometer = Adafruit_LSM303_Accel_Unified(54321);
-//Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
-
 void setup() {
   // Set input pins
   pinMode(pinBatteryRead, INPUT);
@@ -84,23 +77,6 @@ void loop() {
   // Basic running test
   //testMotors();
   
-  //gatherAccelometerValues();
-  gatherMagnetometerValues();
-}
-
-////////////////////////////////
-/* Functions */
-////////////////////////////////
-
-/* Setters */
-
-// Updates the direction of the robot
-void updateDirection() {
-  compassDirection = -1;
-}
-
-/* Getters */
-// Gets the direction of the robot
-int getDirection() {
-  return compassDirection;
+  //gatherAccelometerReadings();
+  gatherMagnetometerReadings();
 }
