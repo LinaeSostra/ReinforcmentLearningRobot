@@ -4,19 +4,19 @@
 #include "Vector.h"
 
 //  Private Variables to Learning.
-float lastReward;
-Action nextAction;
-float theta[];
+extern float lastReward;
+extern Action nextAction;
+extern float theta[];
 
 // Percentage (between 0 - 100)
 uint8_t epsilon = DEFAULT_EPSILON;
-float aplha = DEFAULT_ALPHA;
-float gamma = 0.99;
+float alpha = DEFAULT_ALPHA;
+float gammaWeight = 0.99;
 
 void update(State &state, Action action, State &statePrime) { }
 
 Action chooseRandomAction() { 
-  return (Action)random(0, NUM_ACTIONS+1);
+  return (Action)random(0, NUM_ACTIONS + 1);
 }
 
 Action chooseAction(const State &state) {
@@ -33,14 +33,13 @@ Action chooseAction(const State &state) {
     float candidateValue = value(state, (Action)i);
     if (candidateValue > maxValue) {
       maxValue = candidateValue;
-      bestActions[0] - (Action)i;
+      bestActions[0] = (Action)i;
       numOfBestActions = 1;
     // I really doubt there are multiply actions that are of equal value, but 
     } else if (candidateValue == maxValue) {
       bestActions[numOfBestActions] = (Action)i;
-      numBestActions += 1;
+      numOfBestActions += 1;
     }
   }
   return bestActions[random(numOfBestActions)];
 }
-

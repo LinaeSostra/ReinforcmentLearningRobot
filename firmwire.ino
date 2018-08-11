@@ -70,6 +70,8 @@ void setup() {
 
   // Set LED off
   digitalWrite(pinLED, LOW);
+
+  calibrateMagneticReadings(); 
 }
 
 void loop() {
@@ -78,5 +80,7 @@ void loop() {
   //testMotors();
   
   //gatherAccelometerReadings();
-  gatherMagnetometerReadings();
+  //gatherMagnetometerReadings();
+  //testMagneticValues();
+  //getAngleDirection();
 }

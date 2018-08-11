@@ -4,5 +4,7 @@
 void compassSetup();
 void gatherAccelometerReadings();
 void gatherMagnetometerReadings();
-void calibrateMagnetReadings();
+void testMagneticValues();
+void getAngleDirection();
+void calibrateMagneticReadings();
 #endif
