@@ -3,5 +3,5 @@
 
 bool stateIsTerminal(const State &state);
 
-int reward(const State &state, const Action action, const State &statePrime);
+int calculateReward(const State &state, const Action action, const State &statePrime);
 #endif

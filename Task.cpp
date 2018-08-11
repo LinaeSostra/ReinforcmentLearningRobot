@@ -11,7 +11,7 @@ bool stateIsTerminal(const State &state) {
   return getLatch();
 }
 
-int8_t reward(const State &state, const Action action, const State &statePrime) {
+int8_t calculateReward(const State &state, const Action action, const State &statePrime) {
   if(stateIsTerminal(statePrime)) {
     return 50;
   }

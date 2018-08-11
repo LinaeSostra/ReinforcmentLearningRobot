@@ -11,9 +11,29 @@ extern float theta[];
 // Percentage (between 0 - 100)
 uint8_t epsilon = DEFAULT_EPSILON;
 float alpha = DEFAULT_ALPHA;
-float gammaWeight = 0.99;
+float learningRate = 0.99; // Note: Gamma, but Arduino "gamma" keyword reserved.
 
-void update(State &state, Action action, State &statePrime) { }
+void logWeights() {
+  logVector(theta, NUM_FEATURES);
+}
+
+// Episodic Semi-gradient Sarsa for Control.
+// Refer to Reinforcement Learning: An Introduction 2nd ed. (Sutton and Barto) page 230.
+void update(State &state, Action action, State &statePrime) { 
+  Action actionPrime = chooseAction(statePrime);
+  float reward = calculateReward(state, action, statePrime);
+
+  // Find expected value of next (state, action)
+  float weights[NUM_FEATURES];
+  extractFeatures(statePrime, actionPrime, weights);
+  float valuePrime = dot(theta, weights, NUM_FEATURES);
+
+  // Find change in weight value of current (state, action), and update theta
+  extractFeatures(state, action, weights);
+  float weightError = alpha * (reward + learningRate * valuePrime - dot(theta, weights, NUM_FEATURES));
+  multiply(weightError, weights, NUM_FEATURES);
+  add(theta, weights, NUM_FEATURES);
+}
 
 Action chooseRandomAction() { 
   return (Action)random(0, NUM_ACTIONS + 1);
