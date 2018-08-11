@@ -1,5 +1,10 @@
 #ifndef LEARNING_H
 #define LEARNING_H
+#include <stdint.h>
+
+#define DEFAULT_ALPHA 0.2
+#define DEFAULT_EPSILON 10
+#define NUM_ACTIONS  5
 
 typedef enum Angle {
   North = 0,
@@ -22,5 +27,9 @@ typedef enum Action {
   Right,
   Left
 } Action;
+
+Action chooseRandomAction();
+Action chooseAction(const State &state);
+void update(const State &state, const Action action, const State &statePrime);
 
 #endif
