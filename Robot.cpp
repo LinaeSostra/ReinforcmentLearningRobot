@@ -3,8 +3,24 @@
 #include "Motors.h"
 #include "Pins.h"
 
-const int timeDelay = 200;
+const int TIME_DELAY = 200;
+const int MIN_POSITION = -10;
+const int MAX_POSITION = 9;
 State currentState = {0, 0, North};
+
+// Resets position (in simulation ONLY!)
+void resetPosition() {
+  currentState.xPosition = 0;
+  currentState.yPosition = 0;
+  currentState.angle = North;
+}
+
+// Resets to random position pointing North (in simulation ONLY!)
+void resetToRandomPosition() {
+  currentState.xPosition = random(MIN_POSITION, MAX_POSITION);
+  currentState.yPosition = random(MIN_POSITION, MAX_POSITION);
+  currentState.angle = North;
+}
 
 void logState() {
   Serial.print("(X Position, Y Position): (");
@@ -89,5 +105,5 @@ void apply(Action action) {
       currentState.angle = calculateAngle(currentState.angle, false);
     break;
   }
-  delay(timeDelay); 
+  delay(TIME_DELAY); 
 }
