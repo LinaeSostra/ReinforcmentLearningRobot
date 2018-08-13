@@ -6,6 +6,12 @@
 #define DEFAULT_EPSILON 10
 #define NUM_ACTIONS  5
 
+#define MIN_POSITION -10
+#define MAX_POSITION 9
+
+#define START_POSITION 0
+#define END_POSITION 5
+
 typedef enum Angle {
   North = 0,
   West = 90,

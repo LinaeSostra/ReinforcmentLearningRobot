@@ -1,17 +1,14 @@
 #include <Arduino.h>
-#include "Learning.h"
 #include "Motors.h"
 #include "Pins.h"
 
 const int TIME_DELAY = 200;
-const int MIN_POSITION = -10;
-const int MAX_POSITION = 9;
-State currentState = {0, 0, North};
+State currentState = {START_POSITION, START_POSITION, North};
 
 // Resets position (in simulation ONLY!)
 void resetPosition() {
-  currentState.xPosition = 0;
-  currentState.yPosition = 0;
+  currentState.xPosition = START_POSITION;
+  currentState.yPosition = START_POSITION;
   currentState.angle = North;
 }
 
@@ -36,6 +33,10 @@ struct Position {
   int x;
   int y;
 };
+
+State getCurrentState() {
+  return currentState;
+}
 
 Position calculateMovement(Angle angle, bool isMovingForward) {
   Position pos = {0, 0};

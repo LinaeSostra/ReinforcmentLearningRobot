@@ -1,5 +1,4 @@
 #include "ValueFunctionApproximator.h"
-#include "Learning.h"
 #include "Vector.h"
 
 float weights[NUM_FEATURES] = {0};

@@ -1,7 +1,5 @@
 #ifndef VALUEFUNCTIONAPPROXIMATOR_H
 #define VALUEFUNCTIONAPPROXIMATOR_H
-
-#include <Arduino.h>
 #include "Learning.h"
 
 // 20 [-10:9] in x and y direction + 4 angles
