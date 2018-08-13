@@ -80,4 +80,3 @@ void squareBinBinaryAugment(const float xPosition, const float yPosition, const 
     vector[i] = (doesIndexMatch) ? 1.0 : 0.0;
   }
 }
-

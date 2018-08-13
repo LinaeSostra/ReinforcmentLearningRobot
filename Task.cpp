@@ -6,9 +6,11 @@
 bool batteryLow = false;
 bool isCompassNorth = false;
 
+// Termination occurs  when robot gets to location (5,5) and is pointing North
 bool stateIsTerminal(const State &state) { 
+  return (state.xPosition == 5 && state.yPosition == 5 && state.angle == North);
   //TODO: This will be more complex if Benny actually works...
-  return getLatch();
+  //return getLatch();
 }
 
 int8_t calculateReward(const State &state, const Action action, const State &statePrime) {
