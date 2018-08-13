@@ -1,27 +1,13 @@
-/* Power */
+/* Battery */
+#include <Arduino.h>
+#include "Pins.h"
+#include "Battery.h"
 
-////////////////////////////////
-/* Global Constants */
-////////////////////////////////
-const float batteryVoltageMax = 8.4; // 4.2 x 2
-const float batteryVoltageMin = 6.4; // 3.2 x 2
-const int R1 = 47; // 47k
-const int R2 = 100; // 100k
-
-const float lowBatteryThreshold = 20.0;
-
-////////////////////////////////
-/* Global Variables */
-////////////////////////////////
 float batteryLevel = 0;
 
-////////////////////////////////
-/* Functions */
-////////////////////////////////
-/* Setters */
-void checkBattery() {
-  calculateVoltage();
-  turnLEDs();
+void batterySetup() {
+  pinMode(pinBatteryRead, INPUT);
+  pinMode(pinLED, OUTPUT);
 }
 
 // Calculates how much battery juice is left
@@ -37,16 +23,27 @@ void calculateVoltage() {
   batteryLevel =  batteryVoltage; // Calibrate the reading with an offset if needed
 }
 
+bool isBatteryLow() {
+  float batteryPercentage = getBatteryPercentage();
+  bool withinBatteryRange = batteryPercentage > 0.0;
+  bool isBatteryLow = batteryPercentage < LOW_BATTERY_PERCENTAGE;
+  return withinBatteryRange && isBatteryLow;
+}
+
 // Turn on the LED when battery is low
 void turnLEDs() {
-  float batteryPercentage = getBatteryPercentage();
-  bool isBatteryLow = batteryPercentage < lowBatteryThreshold && batteryPercentage > 0.0;
+  bool batteryLow = isBatteryLow();
 
-  if(isBatteryLow) {
+  if(batteryLow) {
     digitalWrite(pinLED, HIGH);
   } else {
     digitalWrite(pinLED, LOW);
   }
+}
+
+void checkBattery() {
+  calculateVoltage();
+  turnLEDs();
 }
 
 /* Getters */
@@ -56,7 +53,7 @@ float getBatteryLevel() {
 
 /* Helper Functions */
 float getBatteryPercentage() {
-  float batteryPercentage = (batteryLevel - batteryVoltageMin) / (batteryVoltageMax - batteryVoltageMin) * 100; // Percentage calculation
+  float batteryPercentage = (batteryLevel - BATTERY_VOLTAGE_MIN) / (BATTERY_VOLTAGE_MAX - BATTERY_VOLTAGE_MIN) * 100; // Percentage calculation
 #ifdef DEBUG
   Serial.print("Battery Percentage: ");
   Serial.println(batteryPercentage);

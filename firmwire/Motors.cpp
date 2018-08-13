@@ -7,6 +7,15 @@
 uint8_t motorSpeedA = 0; // 0-255, value for PWM speed control
 uint8_t motorSpeedB = 255; // 0-255, value for PWM speed control
 
+void motorSetup() {
+  pinMode(pinMotorA1, OUTPUT);
+  pinMode(pinMotorA2, OUTPUT);
+  pinMode(pinMotorB1, OUTPUT);
+  pinMode(pinMotorB2, OUTPUT);
+  pinMode(pinSpeedMotorA, OUTPUT);
+  pinMode(pinSpeedMotorB, OUTPUT);
+}
+
 // Returns the speed of the left motor
 uint8_t getLeftMotorSpeed() {
   return motorSpeedB; // get PWM speed

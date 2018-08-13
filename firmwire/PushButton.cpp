@@ -4,7 +4,7 @@
 
 bool isSensorPushed = false;
 
-void setupLatch() {
+void latchSetup() {
   pinMode(pinPushSensor, INPUT_PULLUP);
 
   // Attach Interrupts

@@ -17,14 +17,16 @@
    ★ Robot.cpp
    ★ Convert Compass && Sensor to C++
 ************************************************************* */
+
 ////////////////////////////////
 /* Libraries */
 ////////////////////////////////
-#include "Compass.h"
 #include "Pins.h"
-#include "C:\Users\rebec\Documents\firmwire\Learning.h"
+#include "Compass.h"
+#include "Battery.h"
 #include "Motors.h"
 #include "PushButton.h"
+#include "C:\Users\rebec\Documents\firmwire\Learning.h"
 
 ////////////////////////////////
 /* Debug Mode */
@@ -39,18 +41,11 @@ uint8_t rightMotorSpeed;
 
 void setup() {
   // Set input pins
-  pinMode(pinBatteryRead, INPUT);
+  batterySetup();
 
   // Set output pins
-  pinMode(pinLED, OUTPUT);
-  pinMode(pinMotorA1, OUTPUT);
-  pinMode(pinMotorA2, OUTPUT);
-  pinMode(pinMotorB1, OUTPUT);
-  pinMode(pinMotorB2, OUTPUT);
-  pinMode(pinSpeedMotorA, OUTPUT);
-  pinMode(pinSpeedMotorB, OUTPUT);
-  setupLatch();
-
+  motorSetup();
+  latchSetup();
   compassSetup();
 
   // Get initial readings

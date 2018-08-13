@@ -7,4 +7,5 @@ void gatherMagnetometerReadings();
 void testMagneticValues();
 void getAngleDirection();
 void calibrateMagneticReadings();
+
 #endif

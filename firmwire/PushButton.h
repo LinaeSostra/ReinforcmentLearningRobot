@@ -1,7 +1,8 @@
 #ifndef PUSHBUTTON_H
 #define PUSHBUTTON_H
 
-void setupLatch();
+void latchSetup();
 void latchTriggered();
 bool getLatch();
+
 #endif
