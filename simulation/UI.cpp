@@ -4,6 +4,8 @@
 #include <iomanip>
 #include "Learning.h"
 
+using namespace std;
+
 //TODO(Rebecca): May need to reformat to match code elsewhere
 const char separator = ' ';
 const char startLocation = 'O';
