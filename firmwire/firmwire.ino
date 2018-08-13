@@ -7,21 +7,22 @@
    ★ Wireless communication
    ★ H-bridge PWM speed control (need level converters or add-on circuits)
    ★ Testings
-   ★ Robot.cpp
-   ★ Convert Compass && Sensor to C++
+   ★ UI
    -------------------------------------------------------------
    Done List
    ★ Push sensor
    ★ H-bridge & motors direction control
    ★ Battery level reading is working! (error ~0.1v)
    ★ Update the pin numbers after MCU is finalized
+   ★ Robot.cpp
+   ★ Convert Compass && Sensor to C++
 ************************************************************* */
 ////////////////////////////////
 /* Libraries */
 ////////////////////////////////
 #include "Compass.h"
 #include "Pins.h"
-#include "Learning.h"
+#include "C:\Users\rebec\Documents\firmwire\Learning.h"
 #include "Motors.h"
 #include "PushButton.h"
 
