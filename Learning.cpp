@@ -1,4 +1,3 @@
-#include "Learning.h"
 #include "ValueFunctionApproximator.h"
 #include "Task.h"
 #include "Vector.h"

@@ -1,10 +1,14 @@
 #include <Arduino.h>
 #include "Learning.h"
-#include "PushButton.h"
+#include "Robot.h"
 
 //TODO(Rebecca): Fix these to be proper calls.
 bool batteryLow = false;
-bool isCompassNorth = false;
+
+bool isCompassNorth() {
+  State currentState = getCurrentState();
+  return currentState.angle == NORTH;
+}
 
 // Termination occurs  when robot gets to location (5,5) and is pointing North
 bool stateIsTerminal(const State &state) { 
@@ -29,10 +33,9 @@ int8_t calculateReward(const State &state, const Action action, const State &sta
   }
 
   //TODO: Likely don't need this, but to encourage the right kind of action for now.
-  if(isCompassNorth) {
+  if(isCompassNorth()) {
     return -1;
   }
 
   return -2;
 }
-
