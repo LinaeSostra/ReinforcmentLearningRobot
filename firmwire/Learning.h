@@ -1,6 +1,5 @@
 #ifndef LEARNING_H
 #define LEARNING_H
-#include <stdint.h>
 
 #define DEFAULT_ALPHA 0.2
 #define DEFAULT_EPSILON 10

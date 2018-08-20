@@ -1,8 +1,6 @@
-#include "Learning.h"
-#include "Robot.h"
-#include "Task.h"
-#include "Strings.h"
-#include <iostream>
+#include "Main.h"
+
+using namespace std;
 
 // This code is to run simulation the Semi-gradient RL algorithm
 // for 50 episodes to verify the algorithm works as intended, and
@@ -12,21 +10,14 @@
 // writing this coding:
 // https://github.com/nickswalker/ArduinoRL/blob/master/TwoJoint/TwoJoint.ino
 
-#define EVALUATION_MODE 1
-#define EVALUATION_SWITCH_POINT 50
-#define EVALUATION_MAX_STEPS 200
-
-// Variables
-extern State currentState;
-extern State previousState;
-
+State previousState = {START_POSITION, START_POSITION, North};
 Action nextAction = Stay;
 
-float lastReward = 0.0;
+double lastReward = 0.0;
 
-int32_t cumulativeReward = 0.0;
-uint32_t currentEpisodeStep = 0;
-uint16_t currentEpisode = 0;
+double cumulativeReward = 0.0;
+int currentEpisodeStep = 0;
+int currentEpisode = 0;
 
 void logStepInformation() {
 	cout << "\n" << currentEpisodeStep << " , " << cumulativeReward;
@@ -52,7 +43,6 @@ void restartEpisode() {
 	currentEpisode += 1;
 }
 
-
 int main() {
 	bool stillLearning = true;
 	while(stillLearning) {
@@ -70,6 +60,7 @@ int main() {
 		currentEpisodeStep += 1;
 		cumulativeReward += lastReward;
 		logStepInformation();
+		drawGrid(currentState);
 
 		// Start new episode if agent meets terminal conditions
 		bool reachedMaxEpisodeSteps = currentEpisodeStep > EVALUATION_MAX_STEPS;

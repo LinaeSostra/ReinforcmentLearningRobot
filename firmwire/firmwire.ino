@@ -49,7 +49,7 @@ void setup() {
   compassSetup();
 
   // Get initial readings
-  checkBattery();
+  //checkBattery();
     
 #ifdef DEBUG
 // Debug
@@ -66,8 +66,8 @@ void setup() {
 
   // Set LED off
   digitalWrite(pinLED, LOW);
-
-  calibrateMagneticReadings(); 
+  Serial.println("Finished Setup");
+  //calibrateMagneticReadings(); 
 }
 
 void loop() {

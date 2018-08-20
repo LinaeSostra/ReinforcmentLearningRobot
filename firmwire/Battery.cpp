@@ -3,6 +3,8 @@
 #include "Pins.h"
 #include "Battery.h"
 
+#define DEBUG // comment this line to disable debug (Serial Prints)
+
 float batteryLevel = 0;
 
 void batterySetup() {

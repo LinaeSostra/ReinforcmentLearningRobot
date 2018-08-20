@@ -1,8 +1,7 @@
 // Draws the map of the environnment, where the robot is in the mapping
-
 #include <iostream>
 #include <iomanip>
-#include "Learning.h"
+#include "Main.h"
 
 using namespace std;
 
@@ -14,20 +13,6 @@ const char otherLocation = '.';
 const int locationWidth = 3;
 
 char robotLocation = '^';
-
-void drawGrid(State state) {
-	updateRobotLocation(state.angle);
-	char gridChar;
-	for (int xPosition = MIN_POSITION; xPosition < MAX_POSITION; xPosition++) {
-		for (int yPosition = MIN_POSITION; yPosition < MAX_POSITION; yPosition++) {
-			gridChar = getGridCharacter(xPosition, yPosition);
-			cout << left << setw(locationWidth) << setfill(separator) << gridChar;
-		}
-		cout << "\n";
-	}
-	cout << endl;
-	cin.get()
-}
 
 void updateRobotLocation(Angle angle) {
 	switch(angle) {
@@ -46,8 +31,8 @@ void updateRobotLocation(Angle angle) {
 	}
 }
 
-void getGridCharacter(int xPosition, int yPosition) {
-	bool isRobotLocation = (xPosition == state.xPosition) && (yPosition == state.yPosition);
+char getGridCharacter(int xPosition, int yPosition) {
+	bool isRobotLocation = (xPosition == currentState.xPosition) && (yPosition == currentState.yPosition);
 	bool isStartLocation = (xPosition == START_POSITION) && (yPosition == START_POSITION);
 	bool isEndLocation = (xPosition == END_POSITION) && (yPosition == END_POSITION);
 
@@ -55,4 +40,18 @@ void getGridCharacter(int xPosition, int yPosition) {
 	else if(isStartLocation) { return startLocation; }
 	else if(isEndLocation) { return endLocation; }
 	return otherLocation;
+}
+
+void drawGrid(State state) {
+	updateRobotLocation(state.angle);
+	char gridChar;
+	for (int xPosition = MIN_POSITION; xPosition < MAX_POSITION; xPosition++) {
+		for (int yPosition = MIN_POSITION; yPosition < MAX_POSITION; yPosition++) {
+			gridChar = getGridCharacter(xPosition, yPosition);
+			cout << setw(locationWidth) << setfill(separator) << gridChar;
+		}
+		cout << "\n";
+	}
+	cout << endl;
+	//cin.get();
 }
