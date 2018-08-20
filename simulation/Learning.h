@@ -1,12 +1,7 @@
 #ifndef LEARNING_H
 #define LEARNING_H
 
-#include "Vector.h"
 #include <cstdlib>
-
-// 20 [-10:9] in x and y direction + 4 angles
-// 20*20*4 = 3200 features
-const unsigned int NUM_FEATURES = 1606;
 
 #define PERCENTAGE 100
 #define DEFAULT_ALPHA 0.2
@@ -40,6 +35,10 @@ typedef enum Action {
   Right,
   Left
 } Action;
+
+// 20 [-10:9] in x and y direction + 4 angles
+// 20*20*4 = 3200 features
+const unsigned int NUM_FEATURES = 1606;
 
 //  Private Variables to Learning.
 extern double lastReward;
