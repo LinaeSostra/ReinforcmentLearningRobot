@@ -10,7 +10,6 @@ using namespace std;
 // writing this coding:
 // https://github.com/nickswalker/ArduinoRL/blob/master/TwoJoint/TwoJoint.ino
 
-State previousState = {START_POSITION, START_POSITION, North};
 Action nextAction = Stay;
 
 double lastReward = 0.0;
@@ -20,7 +19,7 @@ int currentEpisodeStep = 0;
 int currentEpisode = 0;
 
 void logStepInformation() {
-	cout << "\n" << currentEpisodeStep << " , " << cumulativeReward;
+	cout << "\n" << currentEpisodeStep << " , " << cumulativeReward << "\n";
 }
 
 void markEpisodeStart() {
@@ -48,6 +47,8 @@ int main() {
 	while(stillLearning) {
 		//Populates current and previous state for us
 		apply(nextAction);
+		//cout << "Previous State: (" << previousState.xPosition << ", " << previousState.yPosition << ", " << previousState.angle << ")" << "\n";
+		//cout << "Current State: (" << currentState.xPosition << ", " << currentState.yPosition << ", " << currentState.angle << ")" << "\n";
 
 		// Log values from firmwire here, but not applicable in simulation
 
@@ -60,7 +61,7 @@ int main() {
 		currentEpisodeStep += 1;
 		cumulativeReward += lastReward;
 		logStepInformation();
-		drawGrid(currentState);
+		//drawGrid(currentState);
 
 		// Start new episode if agent meets terminal conditions
 		bool reachedMaxEpisodeSteps = currentEpisodeStep > EVALUATION_MAX_STEPS;

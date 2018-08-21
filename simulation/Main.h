@@ -11,9 +11,10 @@
 #include <sys/types.h>
 
 #define EVALUATION_MODE 1
-#define EVALUATION_SWITCH_POINT 10//50
-#define EVALUATION_MAX_STEPS 10//200
+#define EVALUATION_SWITCH_POINT 50//50
+#define EVALUATION_MAX_STEPS 200//200
 
 // Variables
 extern State currentState;
+extern State previousState;
 #endif

@@ -2,12 +2,14 @@
 
 const unsigned int TIME_DELAY = 200;
 State currentState = {START_POSITION, START_POSITION, North};
+State previousState = {START_POSITION, START_POSITION, North};
 
 // Resets position (in simulation ONLY!)
 void resetPosition() {
   currentState.xPosition = START_POSITION;
   currentState.yPosition = START_POSITION;
   currentState.angle = North;
+  previousState = currentState;
 }
 
 int getRandomPosition(int minPosition, int maxPosition) {
@@ -76,6 +78,7 @@ Angle calculateAngle(Angle angle, bool isRotatingClockwise) {
 // Assuming angles are 90 degree only changes
 void apply(Action action) {
   int x, y;
+  previousState = currentState;
   switch(action) {
     case Stay:
       // Do nothing

@@ -2,6 +2,7 @@
 #define TASK_H
 
 #include "Learning.h"
+#include "Robot.h"
 
 bool stateIsTerminal(const State &state);
 

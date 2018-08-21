@@ -1,6 +1,3 @@
-#include "Learning.h"
-#include "Robot.h"
-
 //TODO(Rebecca): Fix these to be proper calls.
 bool batteryLow = false;
 
@@ -10,8 +7,9 @@ bool isCompassNorth() {
 }
 
 // Termination occurs  when robot gets to location (5,5) and is pointing North
-bool stateIsTerminal(const State &state) { 
-  return (state.xPosition == 5 && state.yPosition == 5 && state.angle == North);
+bool stateIsTerminal(const State &state) {
+  bool atEndPosition = (state.xPosition == END_POSITION && state.yPosition == END_POSITION && state.angle == North);
+  return atEndPosition;
   //TODO: This will be more complex if Benny actually works...
   //return getLatch();
 }
@@ -21,8 +19,8 @@ int calculateReward(const State &state, const Action action, const State &stateP
     return 50;
   }
   
-  bool isXOutOfBounds = abs(statePrime.xPosition) >= 10;
-  bool isYOutOfBounds = abs(statePrime.yPosition) >= 10;
+  bool isXOutOfBounds = statePrime.xPosition > MAX_POSITION || statePrime.xPosition < MIN_POSITION;
+  bool isYOutOfBounds = statePrime.yPosition > MAX_POSITION || statePrime.yPosition < MIN_POSITION;
   if(isXOutOfBounds || isYOutOfBounds) {
     return -100;
   }

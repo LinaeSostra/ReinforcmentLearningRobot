@@ -10,7 +10,7 @@ const char separator = ' ';
 const char startLocation = 'O';
 const char endLocation = 'X';
 const char otherLocation = '.';
-const int locationWidth = 3;
+const int locationWidth = 5;
 
 char robotLocation = '^';
 

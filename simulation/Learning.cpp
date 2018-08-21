@@ -40,7 +40,9 @@ void add(double array[], double array2[], unsigned int length) {
 // Refer to Reinforcement Learning: An Introduction 2nd ed. (Sutton and Barto) page 230.
 void update(State &state, Action action, State &statePrime) { 
   Action actionPrime = chooseAction(statePrime);
+  //cout << "Action Selection: " << actionPrime << "\n";
   double reward = calculateReward(state, action, statePrime);
+  //cout << "Reward for state transition: " << lastReward << "\n";
 
   // Find expected value of next (state, action)
   double tempWeights[NUM_FEATURES];
@@ -52,6 +54,10 @@ void update(State &state, Action action, State &statePrime) {
   double weightError = alpha * (reward + learningRate * valuePrime - calculateDot(weights, tempWeights, NUM_FEATURES));
   multiply(weightError, tempWeights, NUM_FEATURES);
   add(weights, tempWeights, NUM_FEATURES);
+
+  //  Update global variables
+  nextAction = actionPrime;
+  lastReward = reward;
 }
 
 int getRandomNumber(const int modulo) {
