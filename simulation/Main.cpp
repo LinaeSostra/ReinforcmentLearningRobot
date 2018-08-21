@@ -1,4 +1,5 @@
 #include "Main.h"
+#include <fstream>
 
 using namespace std;
 
@@ -23,19 +24,29 @@ void logStepInformation() {
 }
 
 void markEpisodeStart() {
-	cout << "\n!!!";
+	cout << "\n!!!\n";
 }
 
 void markEpisodeEnd() {
-	cout << "\n***";
+	cout << "\n***\n";
 }
 
 void completedLearning() {
 	cout << "\nFinished RL Learning after 50 episodes";
 }
 
+void recordEpisode() {
+	ofstream file;
+	file.open("test.csv", ios::app);
+	file << currentEpisode << "," << currentEpisodeStep << "," << cumulativeReward << "\n";
+}
+
 void restartEpisode() {
-	resetToRandomPosition();
+	recordEpisode();
+	//drawGrid(currentState);
+	logStepInformation();
+	//logWeights();
+	resetPosition();
 	cumulativeReward = 0.0;
 	currentEpisodeStep = 0;
 	markEpisodeEnd();
@@ -44,6 +55,7 @@ void restartEpisode() {
 
 int main() {
 	bool stillLearning = true;
+	logWeights(); //TODO:REMOVES!!!
 	while(stillLearning) {
 		//Populates current and previous state for us
 		apply(nextAction);
@@ -59,12 +71,12 @@ int main() {
 
 		// Update & Log progress of episode
 		currentEpisodeStep += 1;
-		cumulativeReward += lastReward;
-		logStepInformation();
+		cumulativeReward += lastReward; 
+		//logStepInformation();
 		//drawGrid(currentState);
 
 		// Start new episode if agent meets terminal conditions
-		bool reachedMaxEpisodeSteps = currentEpisodeStep > EVALUATION_MAX_STEPS;
+		bool reachedMaxEpisodeSteps = currentEpisodeStep >= EVALUATION_MAX_STEPS;
 		if(stateIsTerminal(currentState) || reachedMaxEpisodeSteps) {
 			restartEpisode();
 			// If enough episodes were conducted, stop learning

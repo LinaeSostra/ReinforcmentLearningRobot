@@ -25,7 +25,7 @@ void squareBinBinaryAugment(const double xPosition, const double yPosition, cons
 }
 
 void extractFeatures(const State &state, const Action action, double phi[]) {
-  // 1 - Counterclockwise
+  /*// 1 - Counterclockwise
   //-1 - Clockwise
   int leftMotorDirection = 0;
   int rightMotorDirection = 0;
@@ -53,14 +53,14 @@ void extractFeatures(const State &state, const Action action, double phi[]) {
       angleDirection = 1;
       break;
   }
-
-  squareBinBinaryAugment(double(state.xPosition), double(state.yPosition), state.angle, 20, phi, 1600);
-  phi[1600] = double(leftMotorDirection);
-  phi[1601] = double(rightMotorDirection);
-  phi[1602] = double(angleDirection && (state.angle == North));
-  phi[1603] = double(angleDirection && (state.angle == West));
-  phi[1604] = double(angleDirection && (state.angle == South));
-  phi[1605] = double(angleDirection && (state.angle == East));
+  */
+  squareBinBinaryAugment(double(state.xPosition), double(state.yPosition), state.angle, 5, phi, NUM_FEATURES);
+  //phi[100] = double(leftMotorDirection);
+  //phi[101] = double(rightMotorDirection);
+  //phi[100] = double(angleDirection && (state.angle == North));
+  //phi[101] = double(angleDirection && (state.angle == West));
+  //phi[102] = double(angleDirection && (state.angle == South));
+  //phi[103] = double(angleDirection && (state.angle == East));
 }
 
 double value(const State &state, const Action action) {

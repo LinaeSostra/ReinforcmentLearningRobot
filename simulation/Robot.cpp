@@ -13,7 +13,7 @@ void resetPosition() {
 }
 
 int getRandomPosition(int minPosition, int maxPosition) {
-  assert(minPosition < 0 && maxPosition > 0);
+  assert(minPosition <= 0 && maxPosition > 0);
   int range = abs(minPosition) + abs(maxPosition);
   return (rand() % range) + 1 + minPosition;
 }
@@ -23,6 +23,7 @@ void resetToRandomPosition() {
   currentState.xPosition = getRandomPosition(MIN_POSITION, MAX_POSITION);
   currentState.yPosition = getRandomPosition(MIN_POSITION, MAX_POSITION);
   currentState.angle = North;
+  previousState = currentState;
 }
 
 void logState() {

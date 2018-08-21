@@ -45,8 +45,8 @@ char getGridCharacter(int xPosition, int yPosition) {
 void drawGrid(State state) {
 	updateRobotLocation(state.angle);
 	char gridChar;
-	for (int xPosition = MIN_POSITION; xPosition < MAX_POSITION; xPosition++) {
-		for (int yPosition = MIN_POSITION; yPosition < MAX_POSITION; yPosition++) {
+	for (int xPosition = MIN_POSITION; xPosition <= MAX_POSITION; xPosition++) {
+		for (int yPosition = MIN_POSITION; yPosition <= MAX_POSITION; yPosition++) {
 			gridChar = getGridCharacter(xPosition, yPosition);
 			cout << setw(locationWidth) << setfill(separator) << gridChar;
 		}

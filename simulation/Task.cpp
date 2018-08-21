@@ -22,6 +22,8 @@ int calculateReward(const State &state, const Action action, const State &stateP
   bool isXOutOfBounds = statePrime.xPosition > MAX_POSITION || statePrime.xPosition < MIN_POSITION;
   bool isYOutOfBounds = statePrime.yPosition > MAX_POSITION || statePrime.yPosition < MIN_POSITION;
   if(isXOutOfBounds || isYOutOfBounds) {
+    // Reset position to starting location but punish bad behavior
+    resetPosition();
     return -100;
   }
   

@@ -8,11 +8,11 @@
 #define DEFAULT_EPSILON 10
 #define NUM_ACTIONS  5
 
-#define MIN_POSITION -10
-#define MAX_POSITION 9
+#define MIN_POSITION 0//-10
+#define MAX_POSITION 4//9
 
 #define START_POSITION 0
-#define END_POSITION 5
+#define END_POSITION 2//5
 
 typedef enum Angle {
   North = 0,
@@ -38,7 +38,11 @@ typedef enum Action {
 
 // 20 [-10:9] in x and y direction + 4 angles
 // 20*20*4 = 3200 features
-const unsigned int NUM_FEATURES = 1606;
+//const unsigned int NUM_FEATURES = 1606;
+
+// 5 [-2:2] in x and y direction + 4 angles
+// 5*5*4 = 100 features
+const unsigned int NUM_FEATURES = 100;
 
 //  Private Variables to Learning.
 extern double lastReward;
