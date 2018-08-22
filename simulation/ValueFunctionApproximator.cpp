@@ -21,6 +21,10 @@ void squareBinBinaryAugment(const double xPosition, const double yPosition, cons
   for(unsigned int i = 0; i < length; i++) {
     doesIndexMatch = i == binIndex;
     vector[i] = (doesIndexMatch) ? 1.0 : 0.0;
+    //TODO(REBECCA): REMOVE!!
+    if(doesIndexMatch) {
+      //cout << "(i, vector[i]) : \t(" << i << ", " << vector[i] << ")\n";
+    }
   }
 }
 
@@ -69,7 +73,8 @@ double value(const State &state, const Action action) {
   //TODO(Rebeca): This is a cough out; fix this.
   double value = 0.0;
   for(unsigned int i = 0; i < NUM_FEATURES; i++) {
-    value += weights[i]*phi[i];
+
+    value += weights[i] * phi[i];
   }
   return value;
 }

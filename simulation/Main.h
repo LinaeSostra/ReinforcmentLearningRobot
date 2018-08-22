@@ -12,7 +12,7 @@
 
 #define EVALUATION_MODE 1
 #define EVALUATION_SWITCH_POINT 1000//1000//50
-#define EVALUATION_MAX_STEPS 20//200
+#define EVALUATION_MAX_STEPS 100//200
 
 // Variables
 extern State currentState;

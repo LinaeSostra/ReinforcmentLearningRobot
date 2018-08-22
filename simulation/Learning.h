@@ -15,10 +15,10 @@
 #define END_POSITION 2//5
 
 typedef enum Angle {
-  North = 0,
-  West = 90,
-  South = 180,
-  East = 270
+  North = 90,
+  West = 180,
+  South = 270,
+  East = 0
 } Angle;
 
 typedef struct State {

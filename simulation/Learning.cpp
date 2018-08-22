@@ -42,7 +42,7 @@ void update(State &state, Action action, State &statePrime) {
   Action actionPrime = chooseAction(statePrime);
   //cout << "Action Selection: " << actionPrime << "\n";
   double reward = calculateReward(state, action, statePrime);
-  //cout << "Reward for state transition: " << lastReward << "\n";
+  //cout << "Expected Reward for state transition: " << reward << "\n";
 
   // Find expected value of next (state, action)
   double tempWeights[NUM_FEATURES];

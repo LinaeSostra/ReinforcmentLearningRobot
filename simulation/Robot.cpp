@@ -29,10 +29,15 @@ void resetToRandomPosition() {
 void logState() {
   cout << "(X Position, Y Position): (" << currentState.xPosition << ", " << currentState.yPosition << ")" << "Angle: " << currentState.angle << "\n";
 }
-struct Position {
-  int x;
-  int y;
-};
+
+bool isOutOfBounds(const State &state) {
+  int xPosition = state.xPosition;
+  int yPosition = state.yPosition;
+  bool xPositionOutOfBounds = xPosition < MIN_POSITION || xPosition > MAX_POSITION;
+  bool yPositionOutOfBounds = yPosition < MIN_POSITION || yPosition > MAX_POSITION;
+  bool outOfBounds = xPositionOutOfBounds || yPositionOutOfBounds;
+  return outOfBounds;
+}
 
 State getCurrentState() {
   return currentState;
@@ -42,16 +47,16 @@ Position calculateMovement(Angle angle, bool isMovingForward) {
   Position pos = {0, 0};
   switch(angle) {
     case North:
-      pos.x = isMovingForward ? 1: -1;
+      pos.y = isMovingForward ? -1: 1;
     break;
     case West:
-      pos.y = isMovingForward ? 1: -1;
-    break;
-    case South:
       pos.x = isMovingForward ? -1: 1;
     break;
+    case South:
+      pos.y = isMovingForward ? 1: -1;
+    break;
     case East:
-      pos.y = isMovingForward ? -1: 1;
+      pos.x = isMovingForward ? 1: -1;
     break;
   }
   return pos;
@@ -80,29 +85,36 @@ Angle calculateAngle(Angle angle, bool isRotatingClockwise) {
 void apply(Action action) {
   int x, y;
   previousState = currentState;
+
+  State tempState = currentState;
   switch(action) {
     case Stay:
       // Do nothing
     break;
     case Forward: {
-      Position pos = calculateMovement(currentState.angle, true);
-      currentState.xPosition += pos.x;
-      currentState.yPosition += pos.y;
+      Position pos = calculateMovement(tempState.angle, true);
+      tempState.xPosition += pos.x;
+      tempState.yPosition += pos.y;
     break;
     }
     case Backwards: {
-      Position pos = calculateMovement(currentState.angle, false);
-      currentState.xPosition += pos.x;
-      currentState.yPosition += pos.y;
+      Position pos = calculateMovement(tempState.angle, false);
+      tempState.xPosition += pos.x;
+      tempState.yPosition += pos.y;
     break;
     }
     case Right:
-      currentState.angle = calculateAngle(currentState.angle, true);
+      tempState.angle = calculateAngle(tempState.angle, true);
     break;
     case Left:
-      currentState.angle = calculateAngle(currentState.angle, false);
+      tempState.angle = calculateAngle(tempState.angle, false);
     break;
   }
+  // If the  new state is not out of boundaries, update currentState with new state.
+  if(!isOutOfBounds(tempState)) {
+    currentState = tempState;
+  }
+
   //TODO(Rebecca): UNDO THIS LATER!!
   //usleep(TIME_DELAY); 
 }

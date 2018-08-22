@@ -8,6 +8,11 @@
 
 using namespace std;
 
+struct Position {
+  int x;
+  int y;
+};
+
 State getCurrentState(); // Returns the current state of the robot
 void resetPosition(); // Reset robot to starting location
 void resetToRandomPosition(); // Reset robot to random starting location
