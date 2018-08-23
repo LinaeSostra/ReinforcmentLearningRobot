@@ -31,12 +31,12 @@ int calculateReward(const State &state, const Action action, const State &stateP
   bool hitAWall = (action == Forward || action == Backwards) && !didStateChange(state, statePrime);
   if(hitAWall) {
     //cout << "Hit a Wall!!\n";
-    return -100;
+    return -10;
   }
   
-  if(batteryLow) {
+  /*if(batteryLow) {
     return -50;
-  }
+  }*/
 
   //TODO: Likely don't need this, but to encourage the right kind of action for now.
   if(isCompassNorth(statePrime)) {

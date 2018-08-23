@@ -48,6 +48,7 @@ void update(State &state, Action action, State &statePrime) {
   double tempWeights[NUM_FEATURES];
   extractFeatures(statePrime, actionPrime, tempWeights);
   double valuePrime = calculateDot(weights, tempWeights, NUM_FEATURES);
+  //cout << "Expected Value for state transition: " << valuePrime << "\n";
 
   // Find change in weight value of current (state, action), and update theta
   extractFeatures(state, action, tempWeights);

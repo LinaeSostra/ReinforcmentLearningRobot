@@ -35,17 +35,22 @@ void completedLearning() {
 	cout << "\nFinished RL Learning after 50 episodes";
 }
 
-void recordEpisode() {
+void cleanFile() {
+	ofstream file;
+	file.open("test.csv", ios::out);
+}
+
+void recordEpisodeToFile() {
 	ofstream file;
 	file.open("test.csv", ios::app);
 	file << currentEpisode << "," << currentEpisodeStep << "," << cumulativeReward << "\n";
 }
 
 void restartEpisode() {
-	recordEpisode();
+	recordEpisodeToFile();
 	//drawGrid(currentState);
 	logStepInformation();
-	//logWeights();
+	logWeights();
 	resetPosition();
 	cumulativeReward = 0.0;
 	currentEpisodeStep = 0;
@@ -54,6 +59,7 @@ void restartEpisode() {
 }
 
 int main() {
+	cleanFile();
 	bool stillLearning = true;
 	//logWeights(); //TODO:REMOVES!!!
 	while(stillLearning) {
@@ -63,7 +69,9 @@ int main() {
 		//cout << "Action Movement: " << nextAction << "\n";
 		//cout << "Previous State: (" << previousState.xPosition << ", " << previousState.yPosition << ", " << previousState.angle << ")" << "\n";
 		//cout << "Current State: (" << currentState.xPosition << ", " << currentState.yPosition << ", " << currentState.angle << ")" << "\n";
+		
 		// Log values from firmwire here, but not applicable in simulation
+		//logWeights();
 
 		// TODO(Rebecca): I don't think this comment is correct
 		// RL algorithm populates next action for us
@@ -86,6 +94,8 @@ int main() {
 				stillLearning = false;
 			} else {
 				markEpisodeStart();
+				logWeights();
+
 			}
 		}
 	}
