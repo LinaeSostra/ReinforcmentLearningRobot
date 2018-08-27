@@ -31,10 +31,10 @@ void updateRobotLocation(Angle angle) {
 	}
 }
 
-char getGridCharacter(int xPosition, int yPosition) {
-	bool isRobotLocation = (xPosition == currentState.xPosition) && (yPosition == currentState.yPosition);
-	bool isStartLocation = (xPosition == START_POSITION) && (yPosition == START_POSITION);
-	bool isEndLocation = (xPosition == END_POSITION) && (yPosition == END_POSITION);
+char getGridCharacter(const Position &position) {
+	bool isRobotLocation = currentState.position == position;
+	bool isStartLocation = START_LOCATION == position;
+	bool isEndLocation = END_LOCATION == position;
 
 	if(isRobotLocation) { return robotLocation; }
 	else if(isStartLocation) { return startLocation; }
@@ -47,7 +47,8 @@ void drawGrid(State state) {
 	char gridChar;
 	for (int xPosition = MIN_POSITION; xPosition <= MAX_POSITION; xPosition++) {
 		for (int yPosition = MIN_POSITION; yPosition <= MAX_POSITION; yPosition++) {
-			gridChar = getGridCharacter(xPosition, yPosition);
+			Position pos = {xPosition, yPosition};
+			gridChar = getGridCharacter(pos);
 			cout << setw(locationWidth) << setfill(separator) << gridChar;
 		}
 		cout << "\n";

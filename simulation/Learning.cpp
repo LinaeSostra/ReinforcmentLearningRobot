@@ -62,7 +62,7 @@ void update(State &state, Action action, State &statePrime) {
 }
 
 int getRandomNumber(const int modulo) {
-  return ((rand() % modulo) + 1);
+  return (rand() % modulo);
 }
 
 Action chooseRandomAction() { 
@@ -92,7 +92,7 @@ Action chooseAction(const State &state) {
       numOfBestActions += 1;
     }
   }
-  Action bestAction = bestActions[getRandomNumber(numOfBestActions) - 1];
+  Action bestAction = bestActions[getRandomNumber(numOfBestActions)];
   //cout << "Best Action Selected: " << bestAction << "\n";
   return bestAction;
 }

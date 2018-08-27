@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 
-#define PERCENTAGE 100
+#define PERCENTAGE 101
 #define DEFAULT_ALPHA 0.2
 #define DEFAULT_EPSILON 10
 #define NUM_ACTIONS  4
@@ -21,27 +21,47 @@ typedef enum Angle {
   East = 0
 } Angle;
 
+struct Position {
+  int x;
+  int y;
+};
+
+bool operator==(const Position &position, const Position &position2) {
+  return position.x == position2.x && position.y == position2.y;
+}
+
+void operator+=(Position &position, const Position &position2) {
+  position.x += position2.x;
+  position.y += position2.y;
+}
+
 typedef struct State {
-  int xPosition;
-  int yPosition;
+  Position position;
   Angle angle;
 } State;
 
-// The robot has 4 options: Move Forward, Move Backwards, Turn Left, Turn Right
+bool operator==(const State &state, const State &state2) {
+  return state.position == state2.position && state.angle == state2.angle;
+}
+
+// The robot has 4 options: Move Up, Move Down, Move Left, Move Right
 typedef enum Action {
-  Forward,
-  Backwards,
-  Right,
-  Left
+  Up,
+  Down,
+  Left,
+  Right
 } Action;
 
 // 20 [-10:9] in x and y direction + 4 angles
 // 20*20*4 = 3200 features
 //const unsigned int NUM_FEATURES = 400;
 
-// 5 [-2:2] in x and y direction + 4 angles
+// 5 [0:4] in x and y direction + 4 angles
 // 5*5*4 = 100 features
 const unsigned int NUM_FEATURES = 100;
+
+const Position START_LOCATION = {START_POSITION, START_POSITION};
+const Position END_LOCATION = {END_POSITION, END_POSITION};
 
 //  Private Variables to Learning.
 extern double lastReward;

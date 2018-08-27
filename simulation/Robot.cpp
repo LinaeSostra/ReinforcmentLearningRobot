@@ -1,38 +1,37 @@
 #include "Robot.h"
 
 const unsigned int TIME_DELAY = 200;
-State currentState = {START_POSITION, START_POSITION, North};
-State previousState = {START_POSITION, START_POSITION, North};
+State currentState = {START_LOCATION, North};
+State previousState = {START_LOCATION, North};
 
 // Resets position (in simulation ONLY!)
 void resetPosition() {
-  currentState.xPosition = START_POSITION;
-  currentState.yPosition = START_POSITION;
+  currentState.position = START_LOCATION;
   currentState.angle = North;
   previousState = currentState;
 }
 
-int getRandomPosition(int minPosition, int maxPosition) {
-  assert(minPosition <= 0 && maxPosition > 0);
-  int range = abs(minPosition) + abs(maxPosition);
-  return (rand() % (range + 1)) + minPosition;
+Position getRandomPosition() {
+  assert(MIN_POSITION <= 0 && MAX_POSITION > 0);
+  int range = abs(MIN_POSITION) + abs(MAX_POSITION);
+  Position randomPosition = {(rand() % (range + 1)) + MIN_POSITION, (rand() % (range + 1)) + MIN_POSITION};
+  return randomPosition;
 }
 
 // Resets to random position pointing North (in simulation ONLY!)
 void resetToRandomPosition() {
-  currentState.xPosition = getRandomPosition(MIN_POSITION, MAX_POSITION);
-  currentState.yPosition = getRandomPosition(MIN_POSITION, MAX_POSITION);
+  currentState.position = getRandomPosition();
   currentState.angle = (rand() % 4) * North;
   previousState = currentState;
 }
 
 void logState() {
-  cout << "(X Position, Y Position): (" << currentState.xPosition << ", " << currentState.yPosition << "), " << "Angle: " << currentState.angle << "\n";
+  cout << "(X Position, Y Position): (" << currentState.position.x << ", " << currentState.position.y << "), " << "Angle: " << currentState.angle << "\n";
 }
 
 bool isOutOfBounds(const State &state) {
-  int xPosition = state.xPosition;
-  int yPosition = state.yPosition;
+  int xPosition = state.position.x;
+  int yPosition = state.position.y;
   bool xPositionOutOfBounds = xPosition < MIN_POSITION || xPosition > MAX_POSITION;
   bool yPositionOutOfBounds = yPosition < MIN_POSITION || yPosition > MAX_POSITION;
   bool outOfBounds = xPositionOutOfBounds || yPositionOutOfBounds;
@@ -85,14 +84,12 @@ State getStep(const State &state, Action action) {
   switch(action) {
     case Forward: {
       Position pos = calculateMovement(tempState.angle, true);
-      tempState.xPosition += pos.x;
-      tempState.yPosition += pos.y;
+      tempState.position += pos;
     break;
     }
     case Backwards: {
       Position pos = calculateMovement(tempState.angle, false);
-      tempState.xPosition += pos.x;
-      tempState.yPosition += pos.y;
+      tempState.position += pos;
     break;
     }
     case Right:
@@ -102,7 +99,7 @@ State getStep(const State &state, Action action) {
       tempState.angle = calculateAngle(tempState.angle, false);
     break;
   }
-  
+
   return tempState;
 }
 
@@ -110,7 +107,6 @@ State getStep(const State &state, Action action) {
 // TODO(Rebecca): States will need to be revisited. 
 // Assuming angles are 90 degree only changes
 void apply(Action action) {
-  int x, y;
   previousState = currentState;
 
   // If the  new state is not out of boundaries, update currentState with new state.

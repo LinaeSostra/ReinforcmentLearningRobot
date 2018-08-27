@@ -2,11 +2,13 @@
 
 double weights[NUM_FEATURES] = {0};
 
-void squareBinBinaryAugment(const double xPosition, const double yPosition, const Angle angle, const int sideLength, double vector[], unsigned int length) {
+void squareBinBinaryAugment(const State &state, const int sideLength, double vector[], unsigned int length) {
+  double xPosition = (double) state.position.x;
+  double yPosition = (double) state.position.y;
   unsigned int binIndex = (int) (sideLength * yPosition + xPosition);
   bool doesIndexMatch = false;
 
-  switch (angle) {
+  switch (state.angle) {
   case West:
     binIndex += sideLength * sideLength;
     break;
@@ -21,10 +23,6 @@ void squareBinBinaryAugment(const double xPosition, const double yPosition, cons
   for(unsigned int i = 0; i < length; i++) {
     doesIndexMatch = i == binIndex;
     vector[i] = (doesIndexMatch) ? 1.0 : 0.0;
-    //TODO(REBECCA): REMOVE!!
-    if(doesIndexMatch) {
-      //cout << "(i, vector[i]) : \t(" << i << ", " << vector[i] << ")\n";
-    }
   }
 }
 
@@ -59,7 +57,7 @@ void extractFeatures(const State &state, const Action action, double phi[]) {
   }
   */
   State newState = getStep(state, action);
-  squareBinBinaryAugment(double(newState.xPosition), double(newState.yPosition), newState.angle, 5, phi, NUM_FEATURES);
+  squareBinBinaryAugment(newState, 5, phi, NUM_FEATURES);
   //phi[100] = double(leftMotorDirection);
   //phi[101] = double(rightMotorDirection);
   //phi[100] = double(angleDirection && (state.angle == North));
@@ -84,10 +82,12 @@ double value(const State &state, const Action action) {
 }
 
 // Note: may need to add bins back if make state space larger
-void squareBin(const double xPosition, const double yPosition, const unsigned int sideLength, double vector[], unsigned int length) {
+void squareBin(const State &state, const unsigned int sideLength, double vector[], unsigned int length) {
+  double xPosition = (double) state.position.x;
+  double yPosition = (double) state.position.y;
   unsigned int binIndex = (int) (sideLength * yPosition + xPosition);
+
   bool doesIndexMatch = false;
-  
   for (int i = 0; i < length; i++) {
     doesIndexMatch = i == binIndex;
     vector[i] = (doesIndexMatch) ? 1.0: 0.0;
