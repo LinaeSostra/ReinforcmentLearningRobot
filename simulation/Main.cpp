@@ -11,7 +11,7 @@ using namespace std;
 // writing this coding:
 // https://github.com/nickswalker/ArduinoRL/blob/master/TwoJoint/TwoJoint.ino
 
-Action nextAction = Stay;
+Action nextAction = Forward;
 
 double lastReward = 0.0;
 
@@ -32,6 +32,7 @@ void markEpisodeEnd() {
 }
 
 void completedLearning() {
+	logWeights();
 	cout << "\nFinished RL Learning after 50 episodes";
 }
 
@@ -48,30 +49,42 @@ void recordEpisodeToFile() {
 
 void restartEpisode() {
 	recordEpisodeToFile();
-	//drawGrid(currentState);
+	drawGrid(currentState);  // If the  new state is not out of boundaries, update currentState with new state.
 	logStepInformation();
-	logWeights();
-	resetPosition();
+	//logWeights();
+	//if(currentEpisode < 200) {
+	//	resetToRandomPosition();
+	//} else {
+		resetPosition();
+	//}
 	cumulativeReward = 0.0;
 	currentEpisodeStep = 0;
 	markEpisodeEnd();
 	currentEpisode += 1;
 }
 
+void setupSeed() {
+	srand(time(NULL));
+}
+
 int main() {
 	cleanFile();
+	setupSeed();
 	bool stillLearning = true;
 	//logWeights(); //TODO:REMOVES!!!
 	while(stillLearning) {
+		// Log values from firmwire here, but not applicable in simulation
+		if(currentEpisodeStep % EVALUATION_MAX_STEPS == 0 ){
+			logState();
+			//logWeights();
+			//drawGrid(currentState);
+		}
 		//cout << "~~~~~~~~~~~~~~~~\nCurrent Episode Step:\t" << currentEpisodeStep << "\n";
 		//Populates current and previous state for us
 		apply(nextAction);
 		//cout << "Action Movement: " << nextAction << "\n";
 		//cout << "Previous State: (" << previousState.xPosition << ", " << previousState.yPosition << ", " << previousState.angle << ")" << "\n";
 		//cout << "Current State: (" << currentState.xPosition << ", " << currentState.yPosition << ", " << currentState.angle << ")" << "\n";
-		
-		// Log values from firmwire here, but not applicable in simulation
-		//logWeights();
 
 		// TODO(Rebecca): I don't think this comment is correct
 		// RL algorithm populates next action for us
@@ -94,7 +107,6 @@ int main() {
 				stillLearning = false;
 			} else {
 				markEpisodeStart();
-				logWeights();
 
 			}
 		}

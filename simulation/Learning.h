@@ -6,13 +6,13 @@
 #define PERCENTAGE 100
 #define DEFAULT_ALPHA 0.2
 #define DEFAULT_EPSILON 10
-#define NUM_ACTIONS  5
+#define NUM_ACTIONS  4
 
 #define MIN_POSITION 0//-10
 #define MAX_POSITION 4//9
 
 #define START_POSITION 0
-#define END_POSITION 2//5
+#define END_POSITION 4//5
 
 typedef enum Angle {
   North = 90,
@@ -27,9 +27,8 @@ typedef struct State {
   Angle angle;
 } State;
 
-// The robot has 5 options: Move Forward, Move Backwards, Turn Left, Turn Right, Stay
+// The robot has 4 options: Move Forward, Move Backwards, Turn Left, Turn Right
 typedef enum Action {
-  Stay,
   Forward,
   Backwards,
   Right,
@@ -38,7 +37,7 @@ typedef enum Action {
 
 // 20 [-10:9] in x and y direction + 4 angles
 // 20*20*4 = 3200 features
-//const unsigned int NUM_FEATURES = 1606;
+//const unsigned int NUM_FEATURES = 400;
 
 // 5 [-2:2] in x and y direction + 4 angles
 // 5*5*4 = 100 features

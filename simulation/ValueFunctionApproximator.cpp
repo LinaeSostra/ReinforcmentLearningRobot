@@ -58,7 +58,8 @@ void extractFeatures(const State &state, const Action action, double phi[]) {
       break;
   }
   */
-  squareBinBinaryAugment(double(state.xPosition), double(state.yPosition), state.angle, 5, phi, NUM_FEATURES);
+  State newState = getStep(state, action);
+  squareBinBinaryAugment(double(newState.xPosition), double(newState.yPosition), newState.angle, 5, phi, NUM_FEATURES);
   //phi[100] = double(leftMotorDirection);
   //phi[101] = double(rightMotorDirection);
   //phi[100] = double(angleDirection && (state.angle == North));
@@ -72,11 +73,14 @@ double value(const State &state, const Action action) {
   extractFeatures(state, action, phi);
   //TODO(Rebeca): This is a cough out; fix this.
   double value = 0.0;
+  bool isPhiEmpty = true;
   for(unsigned int i = 0; i < NUM_FEATURES; i++) {
-
+    if(phi[i] != 0.0) {
+      isPhiEmpty = false;
+    }
     value += weights[i] * phi[i];
   }
-  return value;
+  return isPhiEmpty ? -100 : value;
 }
 
 // Note: may need to add bins back if make state space larger

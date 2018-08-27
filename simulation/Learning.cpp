@@ -5,7 +5,7 @@
 // Percentage (between 0 - 100)
 int epsilon = DEFAULT_EPSILON;
 double alpha = DEFAULT_ALPHA;
-double learningRate = 0.99; // Note: Gamma, but Arduino "gamma" keyword reserved.
+double learningRate = 1.0; // Note: Gamma, but Arduino "gamma" keyword reserved.
 
 void logWeights() {
   cout << "[";
@@ -81,6 +81,7 @@ Action chooseAction(const State &state) {
   int numOfBestActions = -1;
   for(int i = 0; i < NUM_ACTIONS; i++) {
     double candidateValue = value(state, (Action)i);
+    //cout << "(Action, Value): ("<< i << ", " << candidateValue << ")\n";
     if (candidateValue > maxValue) {
       maxValue = candidateValue;
       bestActions[0] = (Action)i;
@@ -91,5 +92,7 @@ Action chooseAction(const State &state) {
       numOfBestActions += 1;
     }
   }
-  return bestActions[getRandomNumber(numOfBestActions) - 1];
+  Action bestAction = bestActions[getRandomNumber(numOfBestActions) - 1];
+  //cout << "Best Action Selected: " << bestAction << "\n";
+  return bestAction;
 }

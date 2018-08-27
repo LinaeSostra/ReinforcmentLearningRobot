@@ -14,7 +14,7 @@ bool didStateChange(const State &state, const State &statePrime) {
 
 // Termination occurs  when robot gets to location (5,5) and is pointing North
 bool stateIsTerminal(const State &state) {
-  bool atEndPosition = (state.xPosition == END_POSITION && state.yPosition == END_POSITION && state.angle == North);
+  bool atEndPosition = (state.xPosition == END_POSITION && state.yPosition == END_POSITION && state.angle == South);
   return atEndPosition;
   //TODO: This will be more complex if Benny actually works...
   //return getLatch();
@@ -22,7 +22,7 @@ bool stateIsTerminal(const State &state) {
 
 int calculateReward(const State &state, const Action action, const State &statePrime) {
   if(stateIsTerminal(statePrime)) {
-    return 50;
+    return 500;
   }
   
   //bool isXOutOfBounds = statePrime.xPosition > MAX_POSITION || statePrime.xPosition < MIN_POSITION;
