@@ -11,7 +11,7 @@ using namespace std;
 // writing this coding:
 // https://github.com/nickswalker/ArduinoRL/blob/master/TwoJoint/TwoJoint.ino
 
-Action nextAction = Forward;
+Action nextAction = Up;
 
 double lastReward = 0.0;
 
@@ -83,8 +83,8 @@ int main() {
 		//Populates current and previous state for us
 		apply(nextAction);
 		//cout << "Action Movement: " << nextAction << "\n";
-		//cout << "Previous State: (" << previousState.xPosition << ", " << previousState.yPosition << ", " << previousState.angle << ")" << "\n";
-		//cout << "Current State: (" << currentState.xPosition << ", " << currentState.yPosition << ", " << currentState.angle << ")" << "\n";
+		//cout << "Previous State: (" << previousState.position.x << ", " << previousState.position.y << ", " << previousState.angle << ")" << "\n";
+		//cout << "Current State: (" << currentState.position.x << ", " << currentState.position.y << ", " << currentState.angle << ")" << "\n";
 
 		// TODO(Rebecca): I don't think this comment is correct
 		// RL algorithm populates next action for us

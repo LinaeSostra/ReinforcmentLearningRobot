@@ -9,7 +9,7 @@
 #define NUM_ACTIONS  4
 
 #define MIN_POSITION 0//-10
-#define MAX_POSITION 4//9
+#define MAX_POSITION 9//9
 
 #define START_POSITION 0
 #define END_POSITION 4//5
@@ -53,12 +53,16 @@ typedef enum Action {
 } Action;
 
 // 20 [-10:9] in x and y direction + 4 angles
-// 20*20*4 = 3200 features
-//const unsigned int NUM_FEATURES = 400;
+// 20*20*4 = 1600 features
+//const unsigned  int NUM_FEATURES = 1600;
+
+//  10 [0:9] in x and y direction + 4 angles
+// 10*10*4 = 400 features
+const unsigned int NUM_FEATURES = 400;
 
 // 5 [0:4] in x and y direction + 4 angles
 // 5*5*4 = 100 features
-const unsigned int NUM_FEATURES = 100;
+//const unsigned int NUM_FEATURES = 100;
 
 const Position START_LOCATION = {START_POSITION, START_POSITION};
 const Position END_LOCATION = {END_POSITION, END_POSITION};

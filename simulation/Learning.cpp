@@ -81,7 +81,7 @@ Action chooseAction(const State &state) {
   int numOfBestActions = -1;
   for(int i = 0; i < NUM_ACTIONS; i++) {
     double candidateValue = value(state, (Action)i);
-    //cout << "(Action, Value): ("<< i << ", " << candidateValue << ")\n";
+   // cout << "(Action, Value): ("<< i << ", " << candidateValue << ")\n";
     if (candidateValue > maxValue) {
       maxValue = candidateValue;
       bestActions[0] = (Action)i;

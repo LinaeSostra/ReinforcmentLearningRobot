@@ -82,22 +82,28 @@ Angle calculateAngle(Angle angle, bool isRotatingClockwise) {
 State getStep(const State &state, Action action) {
   State tempState = state;
   switch(action) {
-    case Forward: {
-      Position pos = calculateMovement(tempState.angle, true);
+    case Up: {
+      Position pos = {0, -1};//calculateMovement(tempState.angle, true);
       tempState.position += pos;
     break;
     }
-    case Backwards: {
-      Position pos = calculateMovement(tempState.angle, false);
+    case Down: {
+      Position pos = {0, 1};//calculateMovement(tempState.angle, false);
       tempState.position += pos;
     break;
     }
-    case Right:
-      tempState.angle = calculateAngle(tempState.angle, true);
+    case Right: {
+    Position pos = {1, 0};
+    tempState.position += pos;
+      //tempState.angle = calculateAngle(tempState.angle, true);
     break;
-    case Left:
-      tempState.angle = calculateAngle(tempState.angle, false);
+  }
+    case Left: {
+    Position pos = {-1, 0};
+    tempState.position += pos;
+      //tempState.angle = calculateAngle(tempState.angle, false);
     break;
+    }
   }
 
   return tempState;
