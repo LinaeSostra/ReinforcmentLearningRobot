@@ -10,10 +10,11 @@
 #include <iostream>
 #include <sys/types.h>
 #include <ctime>
+#include <string>
 
-#define EVALUATION_MODE 1
-#define EVALUATION_SWITCH_POINT 500//1000//50
-#define EVALUATION_MAX_STEPS 200//200
+#define NUM_OF_RUNS 2
+#define EVALUATION_SWITCH_POINT 50//1000//50
+#define EVALUATION_MAX_STEPS 20//200
 
 // Variables
 extern State currentState;
