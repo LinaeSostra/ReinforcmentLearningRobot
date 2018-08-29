@@ -46,18 +46,12 @@ void cleanFile(const char* filePath) {
 // Clears all files within Runs folder
 void cleanAllFiles() {
 	cleanFile("Runs/weights.csv");
-
-	for(unsigned int i = 0; i < NUM_OF_RUNS; i++) {
-		string runFilePath = "Runs/run%d.csv", i;
-		cout << "Clearing " << runFilePath.c_str() << "\n";
-		cleanFile(runFilePath.c_str());
-	}
+	cleanFile("Runs/run.csv");
 }
 
 void recordEpisodeToFile() {
-	string episodeFilePath  = "Runs/run%d.csv", currentRun;
 	ofstream file;
-	file.open(episodeFilePath.c_str(), ios::app);
+	file.open("Runs/run.csv", ios::app);
 	file << currentEpisode << "," << currentEpisodeStep << "," << cumulativeReward << "\n";
 }
 
@@ -73,19 +67,23 @@ void recordRunToFile() {
 
 void restartEpisode() {
 	recordEpisodeToFile();
-	drawGrid(currentState);  // If the  new state is not out of boundaries, update currentState with new state.
-	logStepInformation();
+	//drawGrid(currentState);  // If the  new state is not out of boundaries, update currentState with new state.
+	//logStepInformation();
 	resetPosition();
 	cumulativeReward = 0.0;
+	lastReward = 0.0;
 	currentEpisodeStep = 0;
-	markEpisodeEnd();
+	//markEpisodeEnd();
 	currentEpisode += 1;
 }
 
 void restartRun() {
 	recordRunToFile();
 	logWeights();
+	resetWeights();
+	resetPosition();
 	cumulativeReward = 0.0;
+	lastReward = 0.0;
 	currentEpisodeStep = 0;
 	currentEpisode = 0;
 	currentRun += 1;
@@ -100,11 +98,12 @@ int main() {
 	setupSeed();
 	bool stillRunning = true;
 	while(stillRunning) {
+		//logWeights();
 		bool stillLearning = true;
 		while(stillLearning) {
 			// Log values from firmwire here, but not applicable in simulation
 			if(currentEpisodeStep % EVALUATION_MAX_STEPS == 0 ){
-				logState();
+				//logState();
 				//logWeights();
 				//drawGrid(currentState);
 			}
@@ -135,7 +134,7 @@ int main() {
 				if(finishedLearning) {
 					stillLearning = false;
 				} else {
-					markEpisodeStart();
+					//markEpisodeStart();
 				}
 			}
 		}

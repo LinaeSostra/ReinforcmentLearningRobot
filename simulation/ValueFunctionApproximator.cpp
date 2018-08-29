@@ -2,6 +2,12 @@
 
 double weights[NUM_FEATURES] = {0};
 
+void resetWeights() {
+  for(unsigned i = 0; i < NUM_FEATURES; i++) {
+    weights[i] = 0.0;
+  }
+}
+
 void squareBinBinaryAugment(const State &state, const int sideLength, double vector[], unsigned int length) {
   double xPosition = (double) state.position.x;
   double yPosition = (double) state.position.y;

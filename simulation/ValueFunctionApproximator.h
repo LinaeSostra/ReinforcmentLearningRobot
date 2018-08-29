@@ -2,6 +2,8 @@
 #define VALUEFUNCTIONAPPROXIMATOR_H
 #include "Learning.h"
 
+void resetWeights();
+
 void extractFeatures(const State &state, const Action action, double phi[]);
 
 double value(const State &state, Action action);
