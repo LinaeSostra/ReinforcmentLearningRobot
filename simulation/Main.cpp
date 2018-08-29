@@ -98,15 +98,8 @@ int main() {
 	setupSeed();
 	bool stillRunning = true;
 	while(stillRunning) {
-		//logWeights();
 		bool stillLearning = true;
 		while(stillLearning) {
-			// Log values from firmwire here, but not applicable in simulation
-			if(currentEpisodeStep % EVALUATION_MAX_STEPS == 0 ){
-				//logState();
-				//logWeights();
-				//drawGrid(currentState);
-			}
 			//cout << "~~~~~~~~~~~~~~~~\nCurrent Episode Step:\t" << currentEpisodeStep << "\n";
 			//Populates current and previous state for us
 			apply(nextAction);
@@ -117,7 +110,8 @@ int main() {
 			// TODO(Rebecca): I don't think this comment is correct
 			// RL algorithm populates next action for us
 			Action previousAction = nextAction;
-			update(previousState, previousAction, currentState);
+			//updateSarsa(previousState, previousAction, currentState);
+			updateQLearning(previousState, previousAction, currentState);
 
 			// Update & Log progress of episode
 			currentEpisodeStep += 1;

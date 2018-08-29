@@ -36,9 +36,45 @@ void add(double array[], double array2[], unsigned int length) {
   }
 }
 
+int getRandomNumber(const int modulo) {
+  return (rand() % modulo);
+}
+
+Action chooseRandomAction() { 
+  return (Action) getRandomNumber(NUM_ACTIONS);
+}
+
+Action chooseGreedyAction(const State &state) {
+  double maxValue = -100000.0;
+  Action bestActions[NUM_ACTIONS] = {};
+  int numOfBestActions = -1;
+  for(int i = 0; i < NUM_ACTIONS; i++) {
+    double candidateValue = value(state, (Action)i);
+   // cout << "(Action, Value): ("<< i << ", " << candidateValue << ")\n";
+    if (candidateValue > maxValue) {
+      maxValue = candidateValue;
+      bestActions[0] = (Action)i;
+      numOfBestActions = 1;
+    // I really doubt there are multiply actions that are of equal value, but 
+    } else if (candidateValue == maxValue) {
+      bestActions[numOfBestActions] = (Action)i;
+      numOfBestActions += 1;
+    }
+  }
+  Action bestAction = bestActions[getRandomNumber(numOfBestActions)];
+  //cout << "Best Action Selected: " << bestAction << "\n";
+  return bestAction;
+}
+
+Action chooseAction(const State &state) {
+  // If randomly below epilson, choose random action
+  bool shouldExplore = getRandomNumber(PERCENTAGE) < epsilon;
+  return shouldExplore ? chooseRandomAction() : chooseGreedyAction(state);
+}
+
 // Episodic Semi-gradient Sarsa for Control.
 // Refer to Reinforcement Learning: An Introduction 2nd ed. (Sutton and Barto) page 230.
-void update(State &state, Action action, State &statePrime) { 
+void updateSarsa(State &state, Action action, State &statePrime) {
   Action actionPrime = chooseAction(statePrime);
   //cout << "Action Selection: " << actionPrime << "\n";
   double reward = calculateReward(state, action, statePrime);
@@ -61,38 +97,19 @@ void update(State &state, Action action, State &statePrime) {
   lastReward = reward;
 }
 
-int getRandomNumber(const int modulo) {
-  return (rand() % modulo);
-}
+// Episode Semi-gradient Q-Learning
+void updateQLearning(State &state, Action action, State &statePrime) {
+  double reward = calculateReward(state, action, statePrime);
 
-Action chooseRandomAction() { 
-  return (Action) getRandomNumber(NUM_ACTIONS);
-}
+  double tempWeights[NUM_FEATURES];
+  extractFeatures(statePrime, chooseGreedyAction(statePrime), tempWeights);
+  double valuePrime = calculateDot(weights, tempWeights, NUM_FEATURES);
 
-Action chooseAction(const State &state) {
-  // If randomly below epilson, choose random action
-  if(getRandomNumber(PERCENTAGE) < epsilon) {
-    return chooseRandomAction();
-  }
+  extractFeatures(state, action, tempWeights);
+  double weightError = alpha * (reward  + learningRate * valuePrime - calculateDot(weights, tempWeights, NUM_FEATURES));
+  multiply(weightError, tempWeights, NUM_FEATURES);
+  add(weights, tempWeights, NUM_FEATURES);
 
-  // Else, find the best greedy action
-  double maxValue = -100000.0;
-  Action bestActions[NUM_ACTIONS] = {};
-  int numOfBestActions = -1;
-  for(int i = 0; i < NUM_ACTIONS; i++) {
-    double candidateValue = value(state, (Action)i);
-   // cout << "(Action, Value): ("<< i << ", " << candidateValue << ")\n";
-    if (candidateValue > maxValue) {
-      maxValue = candidateValue;
-      bestActions[0] = (Action)i;
-      numOfBestActions = 1;
-    // I really doubt there are multiply actions that are of equal value, but 
-    } else if (candidateValue == maxValue) {
-      bestActions[numOfBestActions] = (Action)i;
-      numOfBestActions += 1;
-    }
-  }
-  Action bestAction = bestActions[getRandomNumber(numOfBestActions)];
-  //cout << "Best Action Selected: " << bestAction << "\n";
-  return bestAction;
+  nextAction = chooseAction(statePrime);
+  lastReward = reward;
 }

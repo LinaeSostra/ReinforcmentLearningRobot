@@ -74,6 +74,7 @@ extern double weights[NUM_FEATURES];
 
 Action chooseRandomAction();
 Action chooseAction(const State &state);
-void update(const State &state, const Action action, const State &statePrime);
+void updateSarsa(const State &state, const Action action, const State &statePrime);
+void updateQLearning(const State &state, const  Action action, const State &state);
 
 #endif
