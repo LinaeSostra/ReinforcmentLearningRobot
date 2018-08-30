@@ -45,19 +45,19 @@ void cleanFile(const char* filePath) {
 
 // Clears all files within Runs folder
 void cleanAllFiles() {
-	cleanFile("Runs/weights.csv");
-	cleanFile("Runs/run.csv");
+	cleanFile("Runs/weightsQLearning.csv");
+	cleanFile("Runs/runQLearning.csv");
 }
 
 void recordEpisodeToFile() {
 	ofstream file;
-	file.open("Runs/run.csv", ios::app);
+	file.open("Runs/runQLearning.csv", ios::app);
 	file << currentEpisode << "," << currentEpisodeStep << "," << cumulativeReward << "\n";
 }
 
 void recordRunToFile() {
 	ofstream file;
-	file.open("Runs/weights.csv", ios::app);
+	file.open("Runs/weightsQLearning.csv", ios::app);
 	file << currentRun << ",";
 	for(unsigned int i = 0; i < NUM_FEATURES-1; i++) {
 		file << weights[i] << ",";
