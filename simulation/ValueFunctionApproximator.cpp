@@ -33,49 +33,14 @@ void squareBinBinaryAugment(const State &state, const int sideLength, double vec
 }
 
 void extractFeatures(const State &state, const Action action, double phi[]) {
-  /*// 1 - Counterclockwise
-  //-1 - Clockwise
-  int leftMotorDirection = 0;
-  int rightMotorDirection = 0;
-  int angleDirection = 0;
-
-  switch (action) {
-    case Stay:
-      break;
-    case Forward:
-      leftMotorDirection = -1;
-      rightMotorDirection = -1;
-      break;
-    case Backwards:
-      leftMotorDirection = 1;
-      rightMotorDirection = 1;
-      break;
-    case Right:
-      leftMotorDirection = -1;
-      rightMotorDirection = 1;
-      angleDirection = -1;
-      break;
-    case Left:
-      leftMotorDirection = 1;
-      rightMotorDirection = -1;
-      angleDirection = 1;
-      break;
-  }
-  */
   State newState = getStep(state, action);
-  squareBinBinaryAugment(newState, 5, phi, NUM_FEATURES);
-  //phi[100] = double(leftMotorDirection);
-  //phi[101] = double(rightMotorDirection);
-  //phi[100] = double(angleDirection && (state.angle == North));
-  //phi[101] = double(angleDirection && (state.angle == West));
-  //phi[102] = double(angleDirection && (state.angle == South));
-  //phi[103] = double(angleDirection && (state.angle == East));
+  const int sideLength = MAX_POSITION - MIN_POSITION + 1;
+  squareBinBinaryAugment(newState, sideLength, phi, NUM_FEATURES);
 }
 
 double value(const State &state, const Action action) {
   double phi[NUM_FEATURES];
   extractFeatures(state, action, phi);
-  //TODO(Rebeca): This is a cough out; fix this.
   double value = 0.0;
   bool isPhiEmpty = true;
   for(unsigned int i = 0; i < NUM_FEATURES; i++) {

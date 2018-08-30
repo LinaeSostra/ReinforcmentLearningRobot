@@ -12,7 +12,7 @@
 #include <ctime>
 #include <string>
 
-#define NUM_OF_RUNS 50
+#define NUM_OF_RUNS 5
 #define EVALUATION_SWITCH_POINT 500//1000//50
 #define EVALUATION_MAX_STEPS 200//200
 

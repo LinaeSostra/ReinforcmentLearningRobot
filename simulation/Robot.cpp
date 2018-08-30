@@ -120,7 +120,4 @@ void apply(Action action) {
   if(!isOutOfBounds(tempState)) {
     currentState = tempState;
   }
-
-  //TODO(Rebecca): UNDO THIS LATER!!
-  //usleep(TIME_DELAY); 
 }

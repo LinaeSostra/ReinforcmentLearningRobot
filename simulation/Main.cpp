@@ -58,7 +58,6 @@ void recordEpisodeToFile() {
 void recordRunToFile() {
 	ofstream file;
 	file.open("Runs/weightsQLearning.csv", ios::app);
-	file << currentRun << ",";
 	for(unsigned int i = 0; i < NUM_FEATURES-1; i++) {
 		file << weights[i] << ",";
 	}

@@ -54,5 +54,4 @@ void drawGrid(State state) {
 		cout << "\n";
 	}
 	cout << endl;
-	//cin.get();
 }
