@@ -4,6 +4,7 @@ This project was part of a self-directed elective in my final year of undergrad 
 
 ![img_8324](https://user-images.githubusercontent.com/13898053/47622879-8b95d680-dac7-11e8-97d7-3a6e79625648.JPG)
 
+
 ## Simulation Setup
 
 All of the code was written from scratch in C++; this was done for 2 reasons. (1) Once the simulation results were working as intended, then it could easily be ported to the robots that use a microcontroller with limited CPU and computation. Using a standard library such as Google Brain's Tensorflow or OpenAI's Gym would have been too large for these mobile robots. (2) I attempted to code up the exercises in Rich Sutton's and Andrew Barto's ["Introduction to Reinforcement Learning"](http://incompleteideas.net/book/the-book-2nd.html) back in the Fall of 2017 with not much success, so I wanted to prove I could write the RL algorithms even when I failed to so in the past.
@@ -12,12 +13,12 @@ The task in simulation was on a 10 by 10 grid, starting at (0, 0) to move to the
 
 ![Simulation Respresentation](https://user-images.githubusercontent.com/13898053/47628477-03c5c180-daf3-11e8-92e5-c0f70f883668.png)
 
+
 ## Simulation Results
 
-Due to the algorithms not being deterministic, both the approximate episodic semi-gradient Sarsa and Q-Learning algorithms were run for number runs to verify initial findings. While a total of 50 runs were run, with each being 500 episodes with a total max of 200 steps each episode, a sample of five runs and the cumulative reward are shown below.
+Due to the algorithms not being deterministic, both the approximate episodic semi-gradient Sarsa and Q-Learning algorithms were run for a number of times to verify initial findings. While a total of 50 runs were run, with each being 500 episodes with a timeout of 200 steps each episode, a sample of five runs and the cumulative reward are shown below along with a table of the steps and cumulative reward averaged over the 500 episodes in each run of each algorithm.
 
-
-Sarsa appears to unlearn the optimal policy, is prone to high variance. Sarsa has average cumulative reward roughly 23 with about 18 steps.The 2nd run of Sarsa results likely did not converge to the optimal value. Q-Learning on the other hand retains memory of the optimal policy, with the last run #5 having the most variance of the runs. Q-Learning learns a policy with an average cumulative reward of roughly 31 with about 10 steps. The true cumulative reward would be 42 with 8 steps. This matches the theory that Sarsa learns the near-optimal policy, while Q-Learning learns the optimal policy, but there is still room for algorithms to improve towards a more optimal policy.
+Sarsa appears to unlearn the optimal policy and is prone to high variance. Sarsa has an average cumulative reward of roughly 23 taking about 18 steps. The 2nd run of Sarsa (#2) results likely did not converge to the optimal value. Q-Learning on the other hand retains memory of the optimal policy, with the last run (#5) having the most variance of the runs. Q-Learning learns a policy with an average cumulative reward of roughly 31 taking about 10 steps. Again, the optimal cumulative reward would be 43 with 8 steps. These results match the theory that Sarsa learns the near-optimal policy, while Q-Learning learns the optimal policy, but there is still room for algorithms to improve towards a more optimal policy.
 
 ![Episodic Q-Learning vs Sarsa Cumulative Reward Over Episodes](https://user-images.githubusercontent.com/13898053/47629273-66b95780-daf7-11e8-85e4-86059f0daefd.png)
 ![Table Averaging Steps and Cumulative Reward at the End of 500 Episodes For First 5 Runs](https://user-images.githubusercontent.com/13898053/47629298-881a4380-daf7-11e8-918f-969ef65cef76.png)
@@ -25,6 +26,16 @@ Sarsa appears to unlearn the optimal policy, is prone to high variance. Sarsa ha
 Using the same run samples, the policy weights were normalized, and then plotted as a heat map on the grid. Sarsa had a much harder time converging to the goal state at (4,4), which is reflected at (5,5) in the color maps below while Q-Learning correctly maps the goal state to be the most valuable position on the grid. The first two runs of Sarsa had an especially difficult time identifying the goal state, which makes sense in junction cumulative reward graphs as both these graphs show by the end of the run, the algorithm was unlearning the optimal policy. Additionally, Sarsa is more concerned about not traveling on the edges of the grid, which makes sense as the robot moves out of the grid, it’s punished with a reward of -10 while Q-Learning ignores the punishment. Sarsa encourages the agent to take the safer path to the goal position, which also explains why it takes Sarsa on average more steps to reach the goal state compared to Q-Learning.
 
 ![Learning Weights at the End of 500 Episodes For First 5 Runs](https://user-images.githubusercontent.com/13898053/47629461-6a011300-daf8-11e8-9d53-2382aee4b9b7.png)
+
+While these results above look promising, they do not perform well when the problem became more complex, that is increasing the state space. 
+
+To increase the complexity of the problem, the simulated robot was given the ability to point in 4 different directions in any position (North, East, South, West), and the action set being Stay (0), Up (1), Down (2), Turn Left (3), and Turn Right (4). When the robot was not pointing North, it would receive a reward of -2. The distal reward of (4,4) while also having to point North meant the simulated robot learned fairly quickly to point North, but because the reward was so far away, the agent learned the suboptimal policy of pointing North while not too much from the starting location.
+
+![On the Left is Sarsa's Attempt Of Reaching the Goal Position, and on the Right Q-Learning's Attempt Of Reaching the Goal Position](https://user-images.githubusercontent.com/13898053/47630242-e7c71d80-dafc-11e8-999f-694cf31433a3.png)
+On the Left is Sarsa's Attempt Of Reaching the Goal Position at the End of an Episode, and on the Right is Q-Learning's Attempt Of Reach the Goal Position.
+
+![Convergence Failure](https://user-images.githubusercontent.com/13898053/47630418-e64a2500-dafd-11e8-92a0-bffa35178d6c.png)
+Both Sarsa and Q-Learning Fail to Converge to the Optimal Policy.
 
 ## Takeaways / Further Work
 
@@ -36,14 +47,10 @@ Additionally, both the algorithms I used, linear approximated SARSA and Q-Learni
 
 Additionally, Arduino is too limited coding wise, which is why if you look through the commit history I removed nearly all the Arduino code.
 
+
 ## Built With
 * [Arduino](https://www.arduino.cc/) - Initial Hardware Coding
 * [Matlab](https://www.mathworks.com/products/matlab.html) - For plotting RL data
-
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 ## Authors
