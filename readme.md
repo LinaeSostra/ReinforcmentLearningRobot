@@ -43,9 +43,9 @@ This project really pushed the limits of my knowledge of machine learning and ex
 
 In hindsight, it would've been better to use one of the popular ML libraries and done most of the computation on my laptop, and then made the robots do limited computation; if I tackle this problem again, this is likely the approach I would use. 
 
-Additionally, both the algorithms I used, linear approximated SARSA and Q-Learning are not powerful enough for path-planning; [a non-linear approximation or converting the algorithms to their residual forms](http://www.cs.cmu.edu/afs/cs.cmu.edu/project/learn-43/lib/photoz/.g/web/glossary/linear.html) would likely be the next step. Another approach is to simply attempt an algorithm that doesn’t rely on bootstrapping so heavily, such as Monte Carlo methods would greatly increase the convergence as Monte Carlo value estimations are based on the true value of the state, and not on the approximated value of the state. I also suspect, while I'm not completely confident with deep learning, combining neural networks with RL would improve the learning and increase the state space.
+Additionally, both the algorithms I used, linear approximated SARSA and Q-Learning are not powerful enough for path-planning; [a non-linear approximation or converting the algorithms to their residual forms](http://www.cs.cmu.edu/afs/cs.cmu.edu/project/learn-43/lib/photoz/.g/web/glossary/linear.html) would likely be the next step. Another approach is to simply attempt an algorithm that doesn’t rely on bootstrapping so heavily, such as Monte Carlo methods which would greatly increase the convergence since Monte Carlo value estimations are based on the true value of the state, and not on the approximated value of the state. I also suspect, while I'm not completely confident with deep learning, combining neural networks with RL would improve the learning and increase the state space.
 
-Additionally, Arduino is too limited coding wise, which is why if you look through the commit history I removed nearly all the Arduino code.
+Additionally, Arduino is too limited coding wise, which is why if you look through the commit history, I removed nearly all the Arduino code.
 
 
 ## Built With
