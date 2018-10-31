@@ -1,22 +1,37 @@
 # Reinforcement Learning on Robots
 
-This project was part of a self-directed elective in my final year of undergrad to learn the fundamentals of reinforcement learning (RL). I explored implementing RL algorithms on physical custom 3D-printed robots, Benny and Bunny, to move from A to B. Halfway through the project, it became clear the project's algorithm and hardware needed decoupling; it was too difficult to identify if the problems lay in the hardware or the algorithms. From the simulation results, it became clear the selected algorithms would not work for a large state-space, and more powerful algorithms would be needed to teach the robots Benny and Bunny path planning from A to B.
+Reinforcement learning has become a hot topic to study and research, with many pockets of the field untouched. One of these areas is implementing reinforcement learning algorithms on physical robots. I explored implementing RL algorithms on physical custom 3D-printed robots, Benny and Bunny, to go from A to B. This project was part of a self-directed elective in my final year of undergrad to learn the fundamentals of reinforcement learning (RL). 
+
+Initially coding occurred directly on the physical robots, but halfway through the project, it became clear the project's algorithm and hardware needed decoupling; it was too difficult to identify if the problems lay in the hardware or in the RL algorithms. Testing in the RL algorithms in simulation showed promising results for the small state-space (<= 100 states), but once the problem was expanded to contain a distal reward with 400 states it failed to converge for either of the RL algorithms explored. From the simulation results, more powerful algorithms would need to be explored in simulation before implementation on hardware would be feasible.
 
 ![img_8324](https://user-images.githubusercontent.com/13898053/47622879-8b95d680-dac7-11e8-97d7-3a6e79625648.JPG)
 
 
-## Simulation Setup
+## Simulation
 
-All of the code was written from scratch in C++; this was done for two reasons. 
-* (1) Once the simulation results were working as intended, then it could easily be ported to the robots that use a microcontroller with limited CPU and memory. Using a standard library such as Google Brain's Tensorflow or OpenAI's Gym would have been too large to store onto these mobile robots. 
-* (2) I attempted to code up the exercises in Rich Sutton's and Andrew Barto's ["Introduction to Reinforcement Learning"](http://incompleteideas.net/book/the-book-2nd.html) back in the Fall of 2017 with not much success, so I wanted to prove I could write the RL algorithms even when I failed to so in the past.
+All of the code was written in C++ without frameworks or external libraries; this was done for two reasons:
 
-The task in simulation was on a 10 by 10 grid, starting at (0, 0) to move to the end location (4, 4). In the ascii art below, you can see the '^' represents the position of the simulated robot, 'X' is the goal position, 'O' is the starting location, and '.' the other possible locations on the grid. The reward function for every step is by default -1, -10 if it tries to move out of the boundaries (i.e. Moving left from (0, 0) would result in a reward of -10 and no change in position), and 50 if it reaches the goal position (4, 4). Thus the optimal strategy should take 8 steps and an overall cumulative reward of 43. The parameters for learning were epsilon = 0.1 (exploration factor), alpha = 0.2 (step size), gamma = 1.0 (discount factor) with the four actions: Up (0), Down (1), Left (2), and Right (3).
+1) I wanted code that could be used both for training in simulation and for training completely done on the robot with no data transferring. This portability was desired because the robots use a microcontroller with limited CPU and memory, and adding data transferring would've added further complexity to the system. Using a standard library such as Tensorflow or OpenAI's Gym would have been too large to store onto the robots.
+
+2) I attempted to code up the exercises in ["Introduction to Reinforcement Learning"](http://incompleteideas.net/book/the-book-2nd.html) back in the Fall of 2017 with not much success, so I wanted to prove I could write the RL algorithms even when I failed to so in the past.
+
+### Simulation Setup
+The ascii art below acted as a visualization of the simulation environment as a grid.
+
+ - The task in simulation was on a 10 by 10 grid.
+ - Starting at (0, 0), the robot would complete its task if it moved to the end location (4, 4). 
+ - '^' represents the position of the simulated robot, 'X' is the goal position, 'O' is the starting location, and '.' the other possible locations on the grid. 
+ - Actions: Up (0), Down (1), Left (2), Right (3)
+ - The reward function for every step is:
+   * -10 if moves out of the boundaries (i.e. Moving left from (0, 0) would result in a reward of -10 and no change in position)
+   * 50 if reaches the goal position (4, 4)
+   * -1 otherwise
+ - Parameters for Learning: Epsilon = 0.1 (exploration factor), Alpha = 0.2 (step size), Gamma = 1.0 (discount factor)
 
 ![Simulation Respresentation](https://user-images.githubusercontent.com/13898053/47628477-03c5c180-daf3-11e8-92e5-c0f70f883668.png)
 
 
-## Simulation Results
+### Simulation Results
 
 Due to the algorithms not being deterministic, both the approximate episodic semi-gradient Sarsa and Q-Learning algorithms were run for a number of times to verify initial findings. While a total of 50 runs were run, with each being 500 episodes with a timeout of 200 steps each episode, a sample of five runs and the cumulative reward are shown below along with a table of the steps and cumulative reward averaged over the 500 episodes in each run of each algorithm.
 
@@ -29,6 +44,8 @@ Using the same run samples, the policy weights were normalized, and then plotted
 
 ![Learning Weights at the End of 500 Episodes For First 5 Runs](https://user-images.githubusercontent.com/13898053/47629461-6a011300-daf8-11e8-9d53-2382aee4b9b7.png)
 
+
+### Further Simulation Results
 While these results above look promising, they do not perform well when the problem became more complex, that is increasing the state space. 
 
 To increase the complexity of the problem, the simulated robot was given the ability to point in 4 different directions in any position (North, East, South, West), and the action set being Stay (0), Up (1), Down (2), Turn Left (3), and Turn Right (4). When the robot was not pointing North, it would receive a reward of -2. The distal reward of (9,9) while also having to point North meant the simulated robot learned fairly quickly to point North, but because the reward was so far away, the agent learned the suboptimal policy of pointing North while not moving too far away from the starting location.
